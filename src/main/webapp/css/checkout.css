@@ -1,0 +1,25 @@
+@charset "UTF-8";
+
+:root { 
+	--main-green: #07805b;
+}
+
+.checkout-container {
+	max-width: 900px;
+	margin: auto;
+	padding: 20px;
+}
+
+.checkout-box {
+	background: #fff;
+	padding: 25px;
+	border-radius: 12px;
+	box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+}
+
+.checkout-success {
+	color: var(- -main-green);
+	font-size: 26px;
+	text-align: center;
+	margin-top: 20px;
+}

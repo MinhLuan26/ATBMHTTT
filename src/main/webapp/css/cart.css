@@ -1,0 +1,73 @@
+@charset "UTF-8";
+
+.cart-container {
+	max-width: 1000px;
+	margin: 30px auto;
+	background: #fff;
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.cart-table {
+	width: 100%;
+	border-collapse: collapse; /* Gộp viền */
+}
+
+.cart-table th, .cart-table td {
+	border-bottom: 1px solid #ddd;
+	padding: 15px;
+	text-align: left;
+	vertical-align: middle; /* Căn giữa theo chiều dọc */
+}
+
+.cart-table th {
+	background-color: #f7f9fc;
+	font-size: 0.9em;
+	text-transform: uppercase;
+	color: #555;
+}
+
+.cart-item-image {
+	width: 80px;
+	height: 100px; /* Thêm chiều cao */
+	object-fit: cover; /* Đảm bảo ảnh không bị méo */
+	border-radius: 5px;
+}
+
+/* Định dạng cột "Thành tiền" */
+.cart-table td:nth-child(5) b {
+	color: #e44d26; /* Màu đỏ cam */
+}
+
+/* Nút Xóa */
+.remove-item-link {
+	color: #e74c3c; /* Màu đỏ */
+	text-decoration: none;
+	font-weight: 500;
+}
+
+.remove-item-link:hover {
+	text-decoration: underline;
+}
+
+/* Khối tổng tiền */
+.cart-total {
+	text-align: right;
+	margin-top: 20px;
+	font-size: 1.5em;
+	font-weight: bold;
+	color: #333;
+}
+
+/* Nút "Tiến hành Thanh toán" */
+.cart-actions {
+	margin-top: 20px;
+	display: flex;
+	justify-content: space-between; /* Đẩy 2 nút về 2 phía */
+}
+
+.cart-actions a {
+	font-size: 25px !important; /* Kích thước chữ */
+	text-decoration: none !important;
+}

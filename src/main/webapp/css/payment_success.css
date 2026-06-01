@@ -1,0 +1,49 @@
+.success-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 0 20px;
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.success-card {
+    background-color: #fff;
+    padding: 40px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.success-card h2 {
+    font-size: 28px;
+    color: #28a745;
+    margin-bottom: 20px;
+}
+
+.success-card p {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+.btn-detail {
+    background-color: #ff6f61;
+    color: #fff;
+    text-decoration: none;
+    padding: 12px 20px;
+    border-radius: 6px;
+    margin: 5px;
+    display: inline-block;
+    transition: 0.3s;
+}
+
+.btn-detail:hover {
+    background-color: #e65b50;
+}
+
+.btn-secondary {
+    background-color: #aaa;
+}
+
+.btn-secondary:hover {
+    background-color: #888;
+}

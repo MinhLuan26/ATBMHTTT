@@ -1,0 +1,53 @@
+.wishlist-container {
+	max-width: 1100px;
+	margin: 30px auto;
+}
+
+.grid {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 22px;
+}
+
+.card {
+	background: #fff;
+	padding: 15px;
+	border-radius: 8px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	text-align: center;
+	transition: .2s;
+}
+
+.card:hover {
+	transform: translateY(-5px);
+}
+
+.thumb {
+	height: 220px;
+	width: 100%;
+	object-fit: cover;
+	border-radius: 5px;
+}
+
+.author {
+	color: #777;
+}
+
+.price {
+	font-weight: bold;
+	margin-top: 5px;
+}
+
+.btn-remove {
+	margin-top: 10px;
+	padding: 8px 12px;
+	background: #e74c3c;
+	border: none;
+	border-radius: 5px;
+	color: #fff;
+	cursor: pointer;
+}
+
+.btn-remove:hover {
+	background: #c0392b;
+}

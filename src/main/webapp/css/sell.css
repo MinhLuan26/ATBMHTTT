@@ -1,0 +1,138 @@
+@charset "UTF-8";
+
+:root { -
+	-main-green: #07805b; -
+	-green-light: #0a9f70; -
+	-gray-border: #dcdcdc; -
+	-gray-bg: #f7f7f7; -
+	-radius: 14px;
+}
+
+/* ===== Khung form ===== */
+.sell-form {
+	max-width: 850px;
+	margin: 35px auto;
+	background: #fff;
+	padding: 35px;
+	border-radius: var(- -radius);
+	box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+	border: 1px solid #eee;
+	animation: fadeIn 0.4s ease;
+}
+
+/* Animation */
+@
+keyframes fadeIn {from { opacity:0;
+	transform: translateY(15px);
+}
+
+to {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+}
+
+/* ===== Tiêu đề ===== */
+.sell-form h2 {
+	text-align: center;
+	font-size: 28px;
+	color: var(- -main-green);
+	font-weight: 700;
+	margin-bottom: 25px;
+}
+
+/* ===== Label ===== */
+.sell-form label {
+	display: block;
+	font-weight: 600;
+	color: #333;
+	margin-bottom: 6px;
+	font-size: 15px;
+}
+
+/* ===== Input & Textarea ===== */
+.sell-form input, .sell-form textarea, .sell-form select {
+	width: 100%;
+	padding: 14px 16px;
+	border-radius: var(- -radius);
+	border: 1px solid var(- -gray-border);
+	background: var(- -gray-bg);
+	font-size: 15px;
+	outline: none;
+	transition: 0.25s;
+}
+
+.sell-form input:focus, .sell-form textarea:focus, .sell-form select:focus
+	{
+	border-color: var(- -main-green);
+	background: #fff;
+	box-shadow: 0 0 0 3px rgba(7, 128, 91, 0.15);
+}
+
+/* ===== Textarea ===== */
+.sell-form textarea {
+	min-height: 130px;
+	resize: vertical;
+}
+
+/* ===== Bố cục 2 cột ===== */
+.sell-row {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 22px;
+}
+
+@media ( max-width : 768px) {
+	.sell-row {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* ===== Upload ảnh ===== */
+.upload-box {
+	border: 2px dashed #cfcfcf;
+	padding: 25px;
+	text-align: center;
+	border-radius: var(- -radius);
+	background: #fafafa;
+	color: #777;
+	cursor: pointer;
+	transition: 0.3s;
+}
+
+.upload-box:hover {
+	border-color: var(- -main-green);
+	background: #f1fff7;
+	color: var(- -main-green);
+}
+
+/* Hiển thị ảnh preview */
+.preview-img {
+	margin-top: 18px;
+	width: 160px;
+	height: auto;
+	border-radius: var(- -radius);
+	border: 1px solid #ddd;
+}
+
+/* ===== Nút Submit ===== */
+.sell-form button {
+	width: 100%;
+	padding: 15px;
+	border: none;
+	font-size: 18px;
+	font-weight: bold;
+	background: var(- -main-green);
+	color: #fff;
+	border-radius: var(- -radius);
+	cursor: pointer;
+	transition: 0.25s ease;
+	margin-top: 10px;
+}
+
+.sell-form button:hover {
+	background: var(- -green-light);
+	transform: translateY(-2px);
+	box-shadow: 0 6px 14px rgba(7, 128, 91, 0.25);
+}

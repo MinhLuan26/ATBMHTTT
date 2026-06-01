@@ -1,0 +1,278 @@
+@charset "UTF-8";
+/* 1. Reset và cài đặt cơ bản */
+html, body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	background-color: #f7f9fc;
+}
+
+.home-icon {
+	width: 32px;
+	height: 32px;
+	opacity: 0.6;
+	transition: opacity 0.3s ease;
+}
+
+.back-link {
+	position: absolute;
+	top: 25px;
+	left: 25px;
+	text-decoration: none;
+	z-index: 10;
+	line-height: 0;
+	transform: translateY(0);
+	transition: transform 0.1s ease;
+}
+
+.back-link:hover .home-icon {
+	opacity: 1;
+}
+
+.back-link:active {
+	transform: translateY(1px);
+}
+
+/* 2. Container chính */
+.container-wrapper {
+	display: flex;
+	width: 100%;
+	min-height: 100%;
+	overflow: hidden;
+}
+
+/* Panel trái */
+.image-panel {
+	flex: 1.75;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: #f0f0f0;
+	position: relative;
+}
+
+.image-panel img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+/* Panel phải */
+.form-panel {
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 20px 40px;
+	box-sizing: border-box;
+	background-color: #fff;
+	position: relative;
+	overflow-y: auto;
+}
+
+/* Form card */
+.form-card {
+	position: relative;
+	background-color: #ffffff;
+	padding: 20px;
+	border-radius: 12px;
+	box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+	max-width: 450px;
+	width: 100%;
+}
+
+/* Logo */
+.app-logo {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 5px;
+	font-size: 22px;
+	font-weight: bold;
+	color: #007bff;
+}
+
+.logo-image {
+	height: 30px;
+	margin-right: 10px;
+}
+
+.form-card h3 {
+	text-align: center;
+	color: #333;
+	margin-top: 1px;
+	margin-bottom: 1px;
+	font-size: 22px;
+	font-weight: 600;
+}
+
+.form-card .subtitle {
+	text-align: center;
+	color: #777;
+	margin-top: 1px;
+	margin-bottom: 15px;
+	font-size: 12px;
+}
+
+/* Error message */
+.error-message {
+	color: #e74c3c;
+	font-weight: 500;
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+/* Input group */
+.input-group {
+	margin-bottom: 12px;
+}
+
+.input-group label {
+	display: block;
+	margin-bottom: 4px;
+	font-weight: 500;
+	color: #555;
+	font-size: 14px;
+}
+
+.input-group input[type="text"], .input-group input[type="email"],
+	.input-group input[type="password"] {
+	width: 100%;
+	padding: 10px 12px;
+	box-sizing: border-box;
+	border: 1px solid #ddd;
+	border-radius: 6px;
+	font-size: 14px;
+	transition: border-color 0.3s ease;
+	background-color: #f9fbfd;
+}
+
+.input-group input:focus {
+	outline: none;
+	border-color: #007bff;
+	box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+}
+
+.input-group input::placeholder {
+	color: #aab;
+}
+
+/* 🔥 BUTTON TRONG FORM LOGIN/REGISTER */
+/* Không còn ảnh hưởng toàn trang */
+.form-card button[type="submit"] {
+	width: 100%;
+	padding: 10px 20px;
+	background-color: #007bff;
+	color: white;
+	border: none;
+	border-radius: 6px;
+	cursor: pointer;
+	font-size: 15px;
+	font-weight: bold;
+	margin-top: 10px;
+	transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.form-card button[type="submit"]:hover {
+	background-color: #0056b3;
+	transform: translateY(-2px);
+}
+
+.form-card button[type="submit"]:active {
+	transform: translateY(0);
+}
+
+/* Login link */
+.login-link {
+	text-align: center;
+	margin-top: 15px;
+	font-size: 14px;
+	color: #666;
+}
+
+.login-link a {
+	color: #007bff;
+	text-decoration: none;
+	font-weight: 500;
+	transition: color 0.2s ease;
+}
+
+.login-link a:hover {
+	text-decoration: underline;
+	color: #0056b3;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+	width: 8px;
+}
+
+::-webkit-scrollbar-track {
+	background: #f1f1f1;
+	border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+	background: #888;
+	border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: #555;
+}
+
+/* Full width container */
+.container {
+	width: 100%;
+	margin: auto;
+}
+
+/* Footer */
+.site-footer {
+	background-color: #07805b;
+	color: white;
+	padding: 40px 0;
+	margin-top: 50px;
+}
+
+.footer-content {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 0 15px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.footer-column h3 {
+	border-bottom: 2px solid #055a40;
+	padding-bottom: 10px;
+	margin-bottom: 20px;
+}
+
+.footer-column ul {
+	list-style: none;
+	padding: 0;
+}
+
+.footer-column li {
+	margin-bottom: 10px;
+}
+
+.footer-column a {
+	color: #e0e0e0;
+	text-decoration: none;
+}
+
+.footer-column a:hover {
+	color: white;
+	text-decoration: underline;
+}
+
+.copyright {
+	text-align: center;
+	margin-top: 30px;
+	border-top: 1px solid #055a40;
+	padding-top: 20px;
+	font-size: 0.9em;
+}

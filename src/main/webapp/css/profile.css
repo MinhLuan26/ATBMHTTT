@@ -1,0 +1,159 @@
+@charset "UTF-8";
+
+/* Container chính */
+.profile-container {
+	max-width: 1100px;
+	margin: 40px auto;
+	display: flex; /* Layout 2 cột */
+	gap: 30px;
+	align-items: flex-start;
+}
+
+/* --- CỘT TRÁI (SIDEBAR) --- */
+.profile-sidebar {
+	flex: 1;
+	background: #fff;
+	border-radius: 8px;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+	overflow: hidden;
+}
+
+.profile-user-info {
+	padding: 30px;
+	text-align: center;
+	background-color: #f7f9fc;
+	border-bottom: 1px solid #eee;
+}
+
+.profile-avatar {
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+	object-fit: cover;
+	border: 3px solid #07805b; /* Viền xanh */
+	margin-bottom: 10px;
+}
+
+.profile-name {
+	font-weight: 700;
+	font-size: 1.2em;
+	margin: 5px 0;
+}
+
+.profile-menu a {
+	display: block;
+	padding: 15px 20px;
+	color: #555;
+	text-decoration: none;
+	border-bottom: 1px solid #eee;
+	transition: all 0.2s;
+}
+
+.profile-menu a:hover, .profile-menu a.active {
+	background-color: #07805b;
+	color: white;
+}
+
+/* --- CỘT PHẢI (MAIN CONTENT) --- */
+.profile-content {
+	flex: 3;
+	background: #fff;
+	padding: 40px;
+	border-radius: 8px;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.profile-header h2 {
+	margin-top: 0;
+	color: #333;
+	border-bottom: 2px solid #f0f0f0;
+	padding-bottom: 15px;
+	margin-bottom: 25px;
+}
+
+/* Form Styles */
+.form-group {
+	margin-bottom: 20px;
+}
+
+.form-group label {
+	display: block;
+	margin-bottom: 8px;
+	font-weight: 600;
+	color: #555;
+}
+
+.form-control {
+	width: 100%;
+	padding: 12px;
+	border: 1px solid #ddd;
+	border-radius: 6px;
+	font-size: 14px;
+	box-sizing: border-box;
+}
+
+.form-control:focus {
+	border-color: #07805b;
+	outline: none;
+}
+
+/* Nút Lưu */
+.btn-save {
+	background-color: #07805b;
+	color: white;
+	padding: 12px 30px;
+	border: none;
+	border-radius: 6px;
+	font-size: 16px;
+	cursor: pointer;
+	transition: background 0.3s;
+}
+
+.btn-save:hover {
+	background-color: #055a40;
+}
+
+.success-message {
+	background-color: #d4edda;
+	color: #155724;
+	padding: 15px;
+	border-radius: 5px;
+	margin-bottom: 20px;
+}
+/* Bảng đơn hàng */
+.order-table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 20px;
+}
+
+.order-table th, .order-table td {
+	padding: 12px 15px;
+	border-bottom: 1px solid #eee;
+	text-align: left;
+	font-size: 14px;
+}
+
+.order-table th {
+	background-color: #f7f9fc;
+	font-weight: 600;
+	color: #555;
+}
+
+/* Trạng thái đơn hàng */
+.status-badge {
+	padding: 5px 10px;
+	border-radius: 15px;
+	font-size: 12px;
+	font-weight: 600;
+}
+
+.status-success {
+	background-color: #d4edda;
+	color: #155724;
+}
+
+.status-pending {
+	background-color: #fff3cd;
+	color: #856404;
+}

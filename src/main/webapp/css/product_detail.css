@@ -1,0 +1,156 @@
+/* === CONTAINER CHÍNH === */
+.detail-container {
+	max-width: 1100px;
+	margin: 40px auto;
+	padding: 0 20px;
+	display: flex;
+	gap: 40px;
+}
+
+/* === GALLERY === */
+.product-gallery {
+	width: 380px;
+}
+
+.product-gallery-main img {
+	width: 100%;
+	border-radius: 10px;
+	display: block;
+}
+
+/* === THÔNG TIN === */
+.product-info {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+}
+
+.product-title {
+	font-size: 30px;
+	font-weight: 700;
+}
+
+.product-price {
+	font-size: 28px;
+	font-weight: 700;
+	color: #d11;
+}
+
+/* === SỐ LƯỢNG === */
+.quantity-selector {
+	margin: 15px 0;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.quantity-selector input {
+	width: 70px;
+	padding: 5px 8px;
+	font-size: 16px;
+}
+
+/* ======= VÙNG NÚT ======= */
+.product-actions {
+	display: flex;
+	gap: 15px;
+	margin-top: 20px;
+	width: 100%;
+}
+
+/* Wishlist theo đúng ảnh */
+.btn-wishlist {
+	width: 45px;
+	height: 45px;
+	background-color: #ffffff;
+	color: red;
+	border: 1px solid red;
+	border-radius: 6px; /* bo góc giống nút khác */
+	font-size: 20px;
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	transition: 0.25s ease;
+}
+
+.btn-wishlist:hover {
+	background-color: red;
+	color: #fff;
+}
+
+/* ======= 2 nút chính ======= */
+.btn-buy-now, .btn-add-to-cart {
+	flex: 1;
+	padding: 14px 0;
+	font-size: 16px;
+	font-weight: 600;
+	border-radius: 6px;
+	cursor: pointer;
+	border: none;
+	text-align: center;
+	transition: 0.25s ease;
+}
+
+/* === Mua ngay — màu theo ảnh === */
+.btn-buy-now {
+	background-color: #f0f0f0 !important; /* nền xám nhạt */
+	color: #000 !important; /* chữ đen */
+	border: 1px solid #ccc !important; /* viền xám */
+}
+
+.btn-buy-now:hover {
+	background-color: #e6e6e6 !important;
+}
+
+/* === Thêm vào giỏ hàng — màu xanh dương theo ảnh === */
+.btn-add-to-cart {
+	background-color: #0d6efd !important; /* xanh dương */
+	color: white !important; /* chữ trắng */
+	border: 1px solid #0a58ca !important;
+}
+
+.btn-add-to-cart:hover {
+	background-color: #0a58ca !important;
+}
+
+/* MÔ TẢ */
+.product-description {
+	margin-top: 25px;
+}
+
+/* ============================
+   WISHLIST HEART ICON
+   ============================ */
+.wishlist-heart {
+    font-size: 26px;
+    cursor: pointer;
+    color: #aaa;
+    transition: 0.2s;
+}
+
+.wishlist-heart.active {
+    color: red;
+}
+
+/* ============================
+   TOAST MESSAGE
+   ============================ */
+.toast-msg {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #333;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 8px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: 0.3s;
+    z-index: 9999;
+}
+
+.toast-msg.show {
+    opacity: 1;
+    transform: translateY(0);
+}
