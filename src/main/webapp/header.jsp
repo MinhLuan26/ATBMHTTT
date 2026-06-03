@@ -69,8 +69,7 @@
 					class="nav-item active">Trang chủ</a> <a
 					href="products?category=moi" class="nav-item">Sách Mới Nhất</a> <a
 					href="products" class="nav-item">Sản phẩm</a> <a href="#"
-					class="nav-item">Tác Giả Nổi Bật</a> <a href="#" class="nav-item">Tin
-					tức</a> <a href="#" class="nav-item">Liên hệ</a>
+					class="nav-item">Tác Giả Nổi Bật</a> <a href="#" class="nav-item">Tin tức</a> <a href="#" class="nav-item">Liên hệ</a>
 			</div>
 		</div>
 	</nav>
