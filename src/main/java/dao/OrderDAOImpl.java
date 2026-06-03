@@ -3,7 +3,10 @@ package dao;
 
 import model.*;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
+
+import database.DBContext;
 
 /** Triển khai OrderDAO */
 public class OrderDAOImpl implements IOrderDAO {
@@ -50,31 +53,32 @@ public class OrderDAOImpl implements IOrderDAO {
 		return -1;
 	}
 
-	/** Lấy danh sách đơn hàng theo userId */
-	@Override
 	public List<Order> getOrdersByUserId(int userId) {
-		List<Order> list = new java.util.ArrayList<>();
-		String sql = "SELECT * FROM orders WHERE user_id = ? ORDER BY id DESC";
-		try (java.sql.Connection conn = database.DBContext.getConnection();
-				java.sql.PreparedStatement ps = conn.prepareStatement(sql)) {
-			ps.setInt(1, userId);
-			try (java.sql.ResultSet rs = ps.executeQuery()) {
-				while (rs.next()) {
-					Order o = new Order();
-					o.setId(rs.getInt("id"));
-					o.setUserId(rs.getInt("user_id"));
-					o.setTotalPrice(rs.getBigDecimal("total_price"));
-					o.setStatus(rs.getString("status"));
-					// details omitted for brevity
-					list.add(o);
-				}
-			}
-			return list;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return list;
+	    List<Order> list = new ArrayList<>();
+	    
+	    // SỬA: Bỏ điều kiện lọc cứng status = 'COMPLETED', lấy toàn bộ đơn hàng của user đó
+	    String sql = "SELECT * FROM orders WHERE user_id = ? ORDER BY order_date DESC";
+	    
+	    try (Connection conn = DBContext.getConnection();
+	         PreparedStatement ps = conn.prepareStatement(sql)) {
+	        
+	        ps.setInt(1, userId);
+	        try (ResultSet rs = ps.executeQuery()) {
+	            while (rs.next()) {
+	                Order o = new Order();
+	                o.setId(rs.getInt("id"));
+	                o.setUserId(rs.getInt("user_id"));
+	                o.setTotalPrice(rs.getBigDecimal("total_price"));
+	                o.setStatus(rs.getString("status")); // Lấy cả PENDING, COMPLETED, SHIPPING...
+	                o.setOrderDate(rs.getTimestamp("order_date"));
+	                o.setShippingAddress(rs.getString("shipping_address"));
+	                list.add(o);
+	            }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return list;
 	}
 
 	@Override

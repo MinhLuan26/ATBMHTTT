@@ -13,30 +13,31 @@ import model.Book;
 
 public class BookDAOImpl implements IBookDAO {
 
-    @Override
-    public List<Book> getFeaturedBooks() {
-        List<Book> books = new ArrayList<>();
-        String sql = "SELECT TOP 8 * FROM books ORDER BY id DESC";
+	@Override
+	public List<Book> getFeaturedBooks() {
+	    List<Book> books = new ArrayList<>();
+	    // Thêm điều kiện WHERE status = 'ACTIVE'
+	    String sql = "SELECT TOP 8 * FROM books WHERE status = 'ACTIVE' ORDER BY id DESC";
 
-        try (Connection conn = DBContext.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+	    try (Connection conn = DBContext.getConnection();
+	         PreparedStatement ps = conn.prepareStatement(sql);
+	         ResultSet rs = ps.executeQuery()) {
 
-            while (rs.next()) {
-                Book book = new Book();
-                book.setId(rs.getInt("id"));
-                book.setTitle(rs.getString("title"));
-                book.setAuthor(rs.getString("author"));
-                book.setPrice(rs.getBigDecimal("price"));
-                book.setImageUrl(rs.getString("image_url"));  // FIX
-                book.setStatus(rs.getString("status"));
-                books.add(book);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return books;
-    }
+	        while (rs.next()) {
+	            Book book = new Book();
+	            book.setId(rs.getInt("id"));
+	            book.setTitle(rs.getString("title"));
+	            book.setAuthor(rs.getString("author"));
+	            book.setPrice(rs.getBigDecimal("price"));
+	            book.setImageUrl(rs.getString("image_url"));  
+	            book.setStatus(rs.getString("status"));
+	            books.add(book);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return books;
+	}
 
 
     @Override

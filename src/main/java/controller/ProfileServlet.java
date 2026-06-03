@@ -19,7 +19,7 @@ import model.User;
  */
 @WebServlet("/profile")
 public class ProfileServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     private IUserDAO userDAO = new UserDAOImpl();
     private IOrderDAO orderDAO = new OrderDAOImpl(); // Khởi tạo DAO đơn hàng
 
@@ -32,6 +32,13 @@ public class ProfileServlet extends HttpServlet {
             return;
         }
 
+        // 🔥 SỬA LỖI: Lấy thông báo từ session nếu có (do doPost chuyển qua)
+        String sessionMessage = (String) session.getAttribute("message");
+        if (sessionMessage != null) {
+            request.setAttribute("message", sessionMessage);
+            session.removeAttribute("message"); // Hiển thị xong thì xóa ngay
+        }
+
         // 1. Lấy tham số "tab" từ URL (mặc định là 'info')
         String tab = request.getParameter("tab");
         if (tab == null || tab.isEmpty()) {
@@ -40,8 +47,19 @@ public class ProfileServlet extends HttpServlet {
 
         // 2. Xử lý dữ liệu cho từng Tab
         if (tab.equals("orders")) {
-            // Nếu người dùng chọn tab Đơn hàng -> Lấy danh sách đơn hàng
+            // 🔍 THÊM LOG DEBUG: In ra cửa sổ Console của Eclipse để kiểm tra dòng chảy dữ liệu
+            System.out.println("\n========== PROFILE SERVLET DEBUG ==========");
+            System.out.println("-> Người dùng đang xem Tab Đơn Hàng!");
+            System.out.println("-> ID Tài khoản thật hiện tại: " + user.getId());
+            System.out.println("-> Email tài khoản: " + user.getEmail());
+            
+            // Gọi DAO lấy danh sách đơn hàng
             List<Order> orders = orderDAO.getOrdersByUserId(user.getId());
+            
+            // In kết quả kiểm tra xem DAO trả về bao nhiêu dòng
+            System.out.println("-> Số lượng đơn hàng lấy được từ CSDL: " + (orders != null ? orders.size() : 0));
+            System.out.println("===========================================\n");
+            
             request.setAttribute("orders", orders);
         } 
         else if (tab.equals("favorites")) {
@@ -73,13 +91,12 @@ public class ProfileServlet extends HttpServlet {
             // 1. Cập nhật CSDL
             userDAO.updateUser(user);
             
-            // 2. Cập nhật Session (Quan trọng! Để header hiển thị tên mới ngay lập tức)
+            // 2. Cập nhật Session
             session.setAttribute("user", user);
             
-            // Gửi thông báo thành công
-            request.setAttribute("message", "Cập nhật thông tin thành công!");
+            // 🔥 SỬA LỖI: Lưu thông báo vào SESSION thay vì REQUEST vì lệnh gạch dưới dùng sendRedirect
+            session.setAttribute("message", "Cập nhật thông tin thành công!");
         }
-        
         
         response.sendRedirect("profile?tab=info");
     }

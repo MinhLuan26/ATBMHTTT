@@ -17,15 +17,18 @@ public class SellBookServlet extends HttpServlet {
     private BookDAOImpl bookDAO = new BookDAOImpl();
 
     /** GET: hiện form đăng bán */
-    protected void doGet(HttpServletRequest rq,HttpServletResponse rs)throws IOException,ServletException{
-        rq.getRequestDispatcher("sell_book.jsp").forward(rq,rs);
+    protected void doGet(HttpServletRequest rq, HttpServletResponse rs) throws IOException, ServletException {
+        rq.getRequestDispatcher("sell_book.jsp").forward(rq, rs);
     }
 
     /** POST: nhận thông tin sách và lưu DB */
-    protected void doPost(HttpServletRequest rq,HttpServletResponse rs)throws IOException,ServletException{
+    protected void doPost(HttpServletRequest rq, HttpServletResponse rs) throws IOException, ServletException {
         HttpSession session = rq.getSession();
         User user = (User) session.getAttribute("user");
-        if(user==null){ rs.sendRedirect("login.jsp"); return; }
+        if (user == null) { 
+            rs.sendRedirect("login.jsp"); 
+            return; 
+        }
 
         String title = rq.getParameter("title");
         String author = rq.getParameter("author");
@@ -34,30 +37,40 @@ public class SellBookServlet extends HttpServlet {
         String condition = rq.getParameter("condition");
 
         BigDecimal price = BigDecimal.ZERO;
-        try { price = new BigDecimal(priceS); } catch(Exception e){}
+        try { 
+            price = new BigDecimal(priceS); 
+        } catch (Exception e) {}
 
         Part imgPart = rq.getPart("image");
         String fileName = null;
-        if(imgPart != null && imgPart.getSubmittedFileName()!=null && !imgPart.getSubmittedFileName().isEmpty()){
+        if (imgPart != null && imgPart.getSubmittedFileName() != null && !imgPart.getSubmittedFileName().isEmpty()) {
             String uploads = getServletContext().getRealPath("") + File.separator + "images";
             File upDir = new File(uploads);
-            if(!upDir.exists()) upDir.mkdirs();
+            if (!upDir.exists()) upDir.mkdirs();
             fileName = System.currentTimeMillis() + "_" + imgPart.getSubmittedFileName();
             imgPart.write(uploads + File.separator + fileName);
         } else {
             fileName = "images/default.png";
         }
 
+        // --- TẠO ĐỐI TƯỢNG BOOK VÀ ĐỔ DỮ LIỆU ---
         Book b = new Book();
-        b.setTitle(title); b.setAuthor(author); b.setPrice(price);
-        b.setDescription(desc); b.setImageUrl(fileName.startsWith("images/")?fileName:"images/"+fileName);
+        b.setTitle(title); 
+        b.setAuthor(author); 
+        b.setPrice(price);
+        b.setDescription(desc); 
+        b.setImageUrl(fileName.startsWith("images/") ? fileName : "images/" + fileName);
+        
+        // 🔥 SỬA TẠI ĐÂY: Bổ sung trạng thái kích hoạt hiển thị và gắn ID người bán
+        b.setStatus("ACTIVE"); 
+        b.setSellerId(user.getId()); 
 
         int newId = bookDAO.insertBook(b);
-        if(newId>0){
-        	rs.sendRedirect("product-detail?id=" + newId);
+        if (newId > 0) {
+            rs.sendRedirect("product-detail?id=" + newId);
         } else {
-            rq.setAttribute("error","Đăng bán thất bại");
-            rq.getRequestDispatcher("sell_book.jsp").forward(rq,rs);
+            rq.setAttribute("error", "Đăng bán thất bại");
+            rq.getRequestDispatcher("sell_book.jsp").forward(rq, rs);
         }
     }
 }
