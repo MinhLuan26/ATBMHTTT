@@ -86,9 +86,8 @@
 								<tr>
 									<td><b>#${o.id}</b></td>
 									<td>${o.orderDate}</td>
-									<td>${o.address}</td>
-									<td style="color: #e44d26; font-weight: bold;"><fmt:formatNumber
-											value="${o.totalMoney}" type="currency" currencySymbol="VNĐ" />
+									<td>${o.shippingAddress}</td> <td style="color: #e44d26; font-weight: bold;"><fmt:formatNumber
+											value="${o.totalPrice}" type="number" /> VNĐ </td>
 									</td>
 									<td><span
 										class="status-badge ${o.status == 'Đã giao' ? 'status-success' : 'status-pending'}">
