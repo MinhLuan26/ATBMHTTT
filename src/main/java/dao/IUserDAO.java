@@ -8,4 +8,5 @@ public interface IUserDAO {
 	public User findByEmail(String email);
 	// cập nhật thông tin người dùng
 	public void updateUser(User user);
+	public String getPublicKeyByUserId(int userId);
 }

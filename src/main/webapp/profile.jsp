@@ -61,6 +61,12 @@
 							<label>Số điện thoại</label> <input type="text" name="phone"
 								class="form-control" value="${sessionScope.user.phone}">
 						</div>
+						<div class="form-group">
+    						<label>Khóa công khai (Public Key) - Dùng để xác thực mua hàng</label>
+    						<textarea name="publicKey" class="form-control" rows="4" 
+              					placeholder="Dán Public Key từ phần mềm CryptoApp vào đây...">${sessionScope.user.publicKey}</textarea>
+    						<small style="color: #666;">* Nếu bạn chưa có khóa, hãy mở CryptoApp để tạo cặp khóa mới.</small>
+						</div>
 						<button type="submit" class="btn-save">Lưu thay đổi</button>
 					</form>
 				</c:if>

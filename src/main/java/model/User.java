@@ -12,16 +12,18 @@ public class User implements Serializable{
 	private String password;
 	private String phone;
 	private String role;
+	private String publicKey;
 	
 	public User() {}
 	
-	public User( String fullName, String email, String password, String phone, String role) {
+	public User( String fullName, String email, String password, String phone, String role, String publicKey) {
 //		this.id = id;
 		this.fullName = fullName;
 		this.email = email;
 		this.password = password;
 		this.phone = phone;
 		this.role = role;
+		this.publicKey = publicKey;
 	}
 
 	public int getId() {
@@ -76,6 +78,11 @@ public class User implements Serializable{
 		return seriaVersionUID;
 	}
 	
-	
-	
+	public String getPublicKey() {
+	    return publicKey;
+	}
+
+	public void setPublicKey(String publicKey) {
+	    this.publicKey = publicKey;
+	}
 }

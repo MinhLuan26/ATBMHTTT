@@ -68,14 +68,15 @@ public class UserDAOImpl implements IUserDAO {
 			rs = ps.executeQuery(); // Dùng executeQuery cho lệnh SELECT
 			// Nếu tìm thấy kết quả 
 			if(rs.next()) {
-				User user = new User();
-				user.setId(rs.getInt("id"));
-				user.setFullName(rs.getString("fullname"));
-				user.setEmail(rs.getString("email"));
-				user.setPassword(rs.getString("password"));
-				user.setPhone(rs.getString("phone"));
-				user.setRole(rs.getString("role"));
-				return user;
+			    User user = new User();
+			    user.setId(rs.getInt("id"));
+			    user.setFullName(rs.getString("fullname"));
+			    user.setEmail(rs.getString("email"));
+			    user.setPassword(rs.getString("password"));
+			    user.setPhone(rs.getString("phone"));
+			    user.setRole(rs.getString("role"));
+			    user.setPublicKey(rs.getString("public_key"));
+			    return user;
 			}
 		}catch (SQLException e) {
 			e.printStackTrace();
@@ -94,20 +95,36 @@ public class UserDAOImpl implements IUserDAO {
 
 	@Override
 	public void updateUser(User user) {
-	    // Chỉ cập nhật Họ tên và Số điện thoại (Email thường không cho đổi)
-	    String sql = "UPDATE users SET fullname = ?, phone = ? WHERE id = ?";
+	    String sql = "UPDATE users SET fullname = ?, phone = ?, public_key = ? WHERE id = ?";
 
 	    try (Connection conn = DBContext.getConnection();
 	         PreparedStatement ps = conn.prepareStatement(sql)) {
-
+	        
 	        ps.setString(1, user.getFullName());
 	        ps.setString(2, user.getPhone());
-	        ps.setInt(3, user.getId());
-
+	        ps.setString(3, user.getPublicKey());
+	        ps.setInt(4, user.getId());
+	        
 	        ps.executeUpdate();
-
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
+	}
+	
+	public String getPublicKeyByUserId(int userId) {
+	    String sql = "SELECT public_key FROM users WHERE id = ?";
+	    try (Connection conn = DBContext.getConnection();
+	         PreparedStatement ps = conn.prepareStatement(sql)) {
+	        
+	        ps.setInt(1, userId);
+	        try (ResultSet rs = ps.executeQuery()) {
+	            if (rs.next()) {
+	                return rs.getString("public_key");
+	            }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return null;
 	}
 }

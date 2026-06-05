@@ -84,9 +84,15 @@ public class ProfileServlet extends HttpServlet {
             String fullName = request.getParameter("fullname");
             String phone = request.getParameter("phone");
             
+            // --- THÊM MỚI: Lấy tham số publicKey từ form profile.jsp ---
+            String publicKey = request.getParameter("publicKey");
+            
             // Cập nhật đối tượng User
             user.setFullName(fullName);
             user.setPhone(phone);
+            
+            // --- THÊM MỚI: Gán publicKey vào User ---
+            user.setPublicKey(publicKey);
             
             // 1. Cập nhật CSDL
             userDAO.updateUser(user);
