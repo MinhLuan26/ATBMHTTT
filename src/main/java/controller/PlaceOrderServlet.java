@@ -5,16 +5,17 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import model.Cart;
 import model.User;
-import dao.OrderDAO; // 1. Khai báo import lớp OrderDAO của bạn
+import dao.OrderDAO;
+import dao.UserDAOImpl;
+import utils.Chukydientu; // File bạn vừa thêm vào web
+import utils.Hambam;      // File bạn vừa thêm vào web
 
 import java.io.IOException;
 
 @WebServlet("/place-order")
 public class PlaceOrderServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
-    
-    // 2. Khởi tạo đối tượng orderDAO
-    private OrderDAO orderDAO = new OrderDAO(); 
+    private OrderDAO orderDAO = new OrderDAO();
+    private UserDAOImpl userDAO = new UserDAOImpl();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -24,39 +25,57 @@ public class PlaceOrderServlet extends HttpServlet {
         User user = (User) session.getAttribute("user");
         Cart cart = (Cart) session.getAttribute("cart");
 
-        // Kiểm tra người dùng đã đăng nhập chưa để lấy ID
         if (user == null) {
             response.sendRedirect("login.jsp");
             return;
         }
 
-        if (cart == null || cart.getItems().isEmpty()) {
-            response.sendRedirect("cart.jsp");
-            return;
-        }
-
+        // 1. Lấy thông tin từ form
         String address = request.getParameter("address");
-        if (address == null || address.trim().isEmpty()) {
-            request.setAttribute("error", "Vui lòng nhập địa chỉ nhận hàng!");
-            request.getRequestDispatcher("payment_confirm.jsp").forward(request, response);
-            return;
-        }
+        String signatureBase64 = request.getParameter("digitalSignature"); // Lấy chữ ký từ form
 
-        // 3. THỰC HIỆN GỌI DAO ĐỂ LƯU VÀO CSDL TẠI ĐÂY
-        int orderId = orderDAO.createOrder(user.getId(), cart, address);
+        // 2. Tái tạo lại chuỗi Dữ liệu gốc của đơn hàng (Giống hệt lúc tạo ra trên JSP)
+        // Ví dụ: "USER_3_TOTAL_100000_ADDR_HCM"
+        String orderRawData = "USER_" + user.getId() + "_TOTAL_" + cart.getTotal() + "_ADDR_" + address;
+        
+        try {
+            // Lấy mã băm (Hash)
+            String orderHash = Hambam.hashText(orderRawData, "SHA-256");
 
-        if (orderId > 0) {
-            // Xóa giỏ hàng trong session sau khi đã lưu DB thành công
-            cart.clear();
-            session.setAttribute("cart", cart);
+            // 3. Lấy Public Key của user từ CSDL (Bạn cần code thêm hàm getPublicKey(userId) trong DAO)
+            String publicKeyStr = userDAO.getPublicKeyByUserId(user.getId());
 
-            // Nếu muốn hiển thị mã đơn hàng ở trang checkout_success.jsp như bạn đã thiết kế:
-            // Bạn có thể chuyển hướng kèm param hoặc dùng forward. 
-            // Ở đây tạm thời giữ nguyên sendRedirect sang trang thành công:
-            response.sendRedirect("payment_success.jsp");
-        } else {
-            // Xử lý nếu lưu thất bại (lỗi kết nối DB chẳng hạn)
-            request.setAttribute("error", "Có lỗi xảy ra trong quá trình xử lý đơn hàng!");
+            if(publicKeyStr == null || publicKeyStr.isEmpty()) {
+                request.setAttribute("error", "Bạn chưa cập nhật Khóa Công Khai (Public Key) trong hồ sơ!");
+                request.getRequestDispatcher("payment_confirm.jsp").forward(request, response);
+                return;
+            }
+
+            // 4. KIỂM TRA CHỮ KÝ (Dùng file Chukydientu.java của bạn)
+            boolean isValid = Chukydientu.verifyData(orderHash, signatureBase64, publicKeyStr);
+
+            if (!isValid) {
+                // Nếu chữ ký sai, từ chối thanh toán
+                request.setAttribute("error", "Chữ ký điện tử không hợp lệ! Vui lòng kiểm tra lại tool CryptoApp.");
+                request.getRequestDispatcher("payment_confirm.jsp").forward(request, response);
+                return;
+            }
+
+            // 5. Nếu chữ ký ĐÚNG -> Tiến hành lưu đơn hàng vào DB
+            int orderId = orderDAO.createOrder(user.getId(), cart, address);
+
+            if (orderId > 0) {
+                cart.clear();
+                session.setAttribute("cart", cart);
+                response.sendRedirect("checkout_success.jsp"); // hoặc payment_success.jsp
+            } else {
+                request.setAttribute("error", "Lỗi lưu đơn hàng vào hệ thống!");
+                request.getRequestDispatcher("payment_confirm.jsp").forward(request, response);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("error", "Lỗi hệ thống mã hóa: " + e.getMessage());
             request.getRequestDispatcher("payment_confirm.jsp").forward(request, response);
         }
     }

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%-- Thêm thư viện này để format hash nếu cần --%>
 
 <!DOCTYPE html>
 <html lang="vi">
@@ -48,12 +49,24 @@
             <div class="summary-right">${sessionScope.cart.total} VNĐ</div>
         </div>
 
-       <form action="place-order" method="post" class="checkout-form">
-    <label for="address">Địa chỉ giao hàng</label>
-    <input type="text" id="address" name="address" placeholder="Nhập địa chỉ nhận hàng" required>
-    <button type="submit" class="btn-confirm">Xác nhận thanh toán</button>
-</form>
+        <%-- FORM THANH TOÁN ĐÃ TÍCH HỢP CHỮ KÝ --%>
+        <form action="place-order" method="post" class="checkout-form">
+            <label for="address">Địa chỉ giao hàng</label>
+            <input type="text" id="address" name="address" placeholder="Nhập địa chỉ nhận hàng" required>
 
+            <%-- BOX BẢO MẬT CHỮ KÝ ĐIỆN TỬ --%>
+            <div class="security-box" style="border: 2px solid #07805b; padding: 15px; border-radius: 8px; margin-bottom: 20px; background-color: #f9f9f9;">
+                <h3 style="color: #07805b; margin-top: 0;">Xác thực bằng Chữ ký điện tử</h3>
+                <p style="font-size: 14px;">1. Copy mã đơn hàng này vào Tool: 
+                   <textarea readonly style="width: 100%; height: 50px; margin-top: 5px; font-family: monospace; font-size: 12px;">${orderHash}</textarea>
+                </p>
+                <p style="font-size: 14px;">2. Dán chữ ký nhận được từ Tool vào đây:</p>
+                <textarea name="digitalSignature" placeholder="Dán chữ ký (Base64) vào đây..." 
+                          style="width: 100%; height: 80px; padding: 10px; border: 1px solid #ccc; border-radius: 4px;" required></textarea>
+            </div>
+
+            <button type="submit" class="btn-confirm">Xác nhận thanh toán</button>
+        </form>
     </div>
 
 </main>
