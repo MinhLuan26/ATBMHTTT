@@ -58,7 +58,7 @@
             <div class="security-box" style="border: 2px solid #07805b; padding: 15px; border-radius: 8px; margin-bottom: 20px; background-color: #f9f9f9;">
                 <h3 style="color: #07805b; margin-top: 0;">Xác thực bằng Chữ ký điện tử</h3>
                 <p style="font-size: 14px;">1. Copy mã đơn hàng này vào Tool: 
-                   <textarea readonly style="width: 100%; height: 50px; margin-top: 5px; font-family: monospace; font-size: 12px;">${orderHash}</textarea>
+                   <textarea readonly id="orderHash" style="width: 100%; height: 60px; background: #eee;">${orderHash}</textarea>
                 </p>
                 <p style="font-size: 14px;">2. Dán chữ ký nhận được từ Tool vào đây:</p>
                 <textarea name="digitalSignature" placeholder="Dán chữ ký (Base64) vào đây..." 
