@@ -35,7 +35,7 @@
 					<a href="profile?tab=orders"
 						class="${currentTab == 'orders' ? 'active' : ''}"> Quản lý đơn hàng </a> <a href="wishlist">Danh sách yêu thích
 					</a> 
-					<a href="profile?tab=keys" class="${currentTab == 'keys' ? 'active' : ''}">  Quản lý khóa (Public Key)
+					<a href="profile?tab=keys" class="${currentTab == 'keys' ? 'active' : ''}">  Quản lý khóa
     				</a>
 					<a href="profile?tab=password"
 						class="${currentTab == 'password' ? 'active' : ''}"> Đổi mật khẩu 
@@ -65,12 +65,6 @@
 						<div class="form-group">
 							<label>Số điện thoại</label> <input type="text" name="phone"
 								class="form-control" value="${sessionScope.user.phone}">
-						</div>
-						<div class="form-group">
-    						<label>Khóa công khai (Public Key) - Dùng để xác thực mua hàng</label>
-    						<textarea name="publicKey" class="form-control" rows="4" 
-              					placeholder="Dán Public Key từ phần mềm CryptoApp vào đây...">${sessionScope.user.publicKey}</textarea>
-    						<small style="color: #666;">* Nếu bạn chưa có khóa, hãy mở CryptoApp để tạo cặp khóa mới.</small>
 						</div>
 						<button type="submit" class="btn-save">Lưu thay đổi</button>
 					</form>
@@ -116,26 +110,92 @@
 				</c:if>
 
 				<c:if test="${currentTab == 'keys'}">
-    				<div class="profile-header">
+				    <div class="profile-header">
 				        <h2>Quản lý khóa bảo mật</h2>
-				        <p>Cập nhật Khóa công khai (Public Key) để sử dụng chức năng Chữ ký điện tử bảo vệ đơn hàng.</p>
-    				</div>
-    
-				    <form action="profile" method="POST">
-				        <input type="hidden" name="formType" value="updateKey">
-        
-				        <div class="form-group">
-				            <label style="color: #07805b; font-size: 16px;">Khóa công khai (Public Key) hiện tại của bạn:</label>
-				            <textarea name="publicKey" class="form-control" rows="10" 
-				                      placeholder="Dán toàn bộ nội dung file public.key từ phần mềm CryptoApp vào đây..." 
-				                      required style="font-family: monospace; font-size: 13px; background-color: #fcfcfc;">${sessionScope.user.publicKey}</textarea>
-				            <small style="color: #666; display: block; margin-top: 10px; line-height: 1.5;">
-				                <b>Hướng dẫn:</b> Mở phần mềm CryptoApp > Chọn Tạo Khóa > Copy toàn bộ đoạn mã bắt đầu bằng <code>-----BEGIN PUBLIC KEY-----</code> và kết thúc bằng <code>-----END PUBLIC KEY-----</code> rồi dán vào ô trên.
-				            </small>
+				        <p>Trung tâm thiết lập và quản lý chữ ký số của bạn.</p>
+				    </div>
+				    
+				    <c:if test="${not empty sessionScope.newPrivateKey}">
+				        <div style="background-color: #fff3cd; border: 2px dashed #ff9800; padding: 20px; border-radius: 8px; margin-bottom: 25px; text-align: center;">
+				            <h3 style="color: #e65100; margin-top: 0; font-size: 22px;">🎉 Tạo cặp khóa thành công!</h3>
+				            <p style="color: #d32f2f; font-size: 15px;">
+				                <b>CẢNH BÁO QUAN TRỌNG:</b> Đây là lần duy nhất bạn có thể tải <b>Private Key</b>. 
+				                Hệ thống tuyệt đối không lưu trữ khóa bí mật của bạn. Nếu bạn bỏ qua bước này, bạn sẽ không có khóa để ký thanh toán!
+				            </p>
+				            <form action="download-private-key" method="POST" style="margin-top: 15px;">
+				                <button type="submit" style="background-color: #d32f2f; color: white; border: none; padding: 15px 30px; font-size: 18px; font-weight: bold; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 10px rgba(211,47,47,0.3); transition: 0.3s;">
+				                    ⬇ PRIVATE KEY - TẢI VỀ NGAY
+				                </button>
+				            </form>
 				        </div>
-        
-				        <button type="submit" class="btn-save" style="background-color: #e44d26;">Lưu Khóa Công Khai</button>
-				    </form>
+				        <% session.removeAttribute("newPrivateKey"); %>
+				    </c:if>
+				
+				    <div style="display: flex; gap: 20px; margin-bottom: 25px;">
+				        <div style="flex: 1; background: #f9fbfd; border: 1px solid #e0e0e0; padding: 20px; border-radius: 8px; text-align: center;">
+				            <h3 style="color: #07805b; margin-top: 0;">✨ Tạo cặp khóa mới</h3>
+				            <p style="font-size: 13px; color: #555; height: 40px;">Hệ thống sinh tự động cặp RSA 2048-bit. Khóa công khai tự động lưu vào hồ sơ.</p>
+				            <form action="profile" method="POST">
+				                <input type="hidden" name="formType" value="generateKey">
+				                <button type="submit" class="btn-save" style="width: 100%; background-color: #07805b; box-shadow: 0 4px 6px rgba(7,128,91,0.2);">Tạo Khóa Mới</button>
+				            </form>
+				        </div>
+				
+				        <div style="flex: 1; background: #f9fbfd; border: 1px solid #e0e0e0; padding: 20px; border-radius: 8px; text-align: center;">
+				            <h3 style="color: #2196F3; margin-top: 0;">📤 Tải lên Public Key</h3>
+				            <p style="font-size: 13px; color: #555; height: 40px;">Bạn đã có file public.key từ phần mềm? Trực tiếp tải file lên hệ thống.</p>
+				            <form action="profile" method="POST" enctype="multipart/form-data" style="display: flex; gap: 10px; flex-direction: column;">
+				                <input type="hidden" name="formType" value="uploadKey">
+				                <input type="file" name="publicKeyFile" accept=".key,.txt" required style="font-size: 13px; border: 1px solid #ccc; padding: 5px; border-radius: 4px; background: white;">
+				                <button type="submit" class="btn-save" style="background-color: #2196F3; width: 100%; box-shadow: 0 4px 6px rgba(33,150,243,0.2);">Tải File Lên</button>
+				            </form>
+				        </div>
+				    </div>
+					<c:if test="${not empty sessionScope.message}">
+					    <div style="background-color: #d4edda; color: #155724; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
+					        ${sessionScope.message}
+					    </div>
+					    <% session.removeAttribute("message"); %>
+					</c:if>
+				    <div style="border: 1px solid #e0e0e0; padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+				        <h3 style="margin-top: 0; color: #333;">🔑 Khóa Công Khai Hiện Tại</h3>
+				        <form action="profile" method="POST">
+				            <input type="hidden" name="formType" value="updateKey">
+				            <div class="form-group" style="margin-bottom: 10px;">
+				                <textarea name="publicKey" class="form-control" rows="5" 
+				                          placeholder="Chưa có khóa công khai nào được thiết lập..." 
+				                          required style="font-family: monospace; font-size: 12px; background-color: #fff; border: 1px solid #ccc;">${sessionScope.user.publicKey}</textarea>
+				            </div>
+				            <button type="submit" class="btn-save" style="background-color: #e44d26;">Lưu Lại Khóa</button>
+				        </form>
+				    </div>
+				
+				    <div style="border: 1px solid #e0e0e0; padding: 20px; border-radius: 8px;">
+				        <h3 style="margin-top: 0; color: #333;">🕒 Lịch sử tạo khóa</h3>
+				        <table class="cart-table" style="font-size: 14px; margin-bottom: 0;">
+				            <thead>
+				                <tr>
+				                    <th>Hành động</th>
+				                    <th>Trạng thái</th>
+				                    <th>Thời gian ghi nhận</th>
+				                </tr>
+				            </thead>
+				            <tbody>
+				                <c:if test="${not empty sessionScope.user.publicKey}">
+				                    <tr>
+				                        <td>Hệ thống đã ghi nhận 01 Khóa Công Khai</td>
+				                        <td><span style="color: white; background: #4caf50; padding: 3px 8px; border-radius: 4px; font-size: 12px;">Đang hoạt động</span></td>
+				                        <td>Gần đây nhất</td>
+				                    </tr>
+				                </c:if>
+				                <c:if test="${empty sessionScope.user.publicKey}">
+				                    <tr>
+				                        <td colspan="3" style="text-align: center; color: #888;">Chưa có dữ liệu lịch sử. Hãy tạo hoặc tải khóa lên.</td>
+				                    </tr>
+				                </c:if>
+				            </tbody>
+				        </table>
+				    </div>
 				</c:if>
 				
 				<c:if test="${currentTab == 'password'}">
