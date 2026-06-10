@@ -73,37 +73,55 @@ public class ProfileServlet extends HttpServlet {
     }
 
     // 2. Xử lý Cập nhật thông tin
+ // 2. Xử lý Cập nhật thông tin và Cập nhật Khóa
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8"); // Để nhận tiếng Việt
+        request.setCharacterEncoding("UTF-8"); 
         
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         
         if (user != null) {
-            // Lấy dữ liệu mới từ form
-            String fullName = request.getParameter("fullname");
-            String phone = request.getParameter("phone");
+            // Lấy loại form gửi lên
+            String formType = request.getParameter("formType");
             
-            // --- THÊM MỚI: Lấy tham số publicKey từ form profile.jsp ---
-            String publicKey = request.getParameter("publicKey");
-            
-            // Cập nhật đối tượng User
-            user.setFullName(fullName);
-            user.setPhone(phone);
-            
-            // --- THÊM MỚI: Gán publicKey vào User ---
-            user.setPublicKey(publicKey);
-            
-            // 1. Cập nhật CSDL
-            userDAO.updateUser(user);
-            
-            // 2. Cập nhật Session
-            session.setAttribute("user", user);
-            
-            // 🔥 SỬA LỖI: Lưu thông báo vào SESSION thay vì REQUEST vì lệnh gạch dưới dùng sendRedirect
-            session.setAttribute("message", "Cập nhật thông tin thành công!");
+            if ("updateKey".equals(formType)) {
+                // ============================================
+                // LUỒNG 1: XỬ LÝ CẬP NHẬT KHÓA CÔNG KHAI
+                // ============================================
+                String publicKey = request.getParameter("publicKey");
+                
+                // Gán khóa mới cho User
+                user.setPublicKey(publicKey);
+                userDAO.updateUser(user);
+                
+                // Cập nhật session và gửi thông báo
+                session.setAttribute("user", user);
+                session.setAttribute("message", "Đã cập nhật Khóa công khai thành công! Bạn có thể bắt đầu mua hàng an toàn.");
+                
+                // Trả về đúng tab Quản lý khóa
+                response.sendRedirect("profile?tab=keys");
+                return;
+                
+            } else {
+                // ============================================
+                // LUỒNG 2: XỬ LÝ CẬP NHẬT THÔNG TIN CÁ NHÂN
+                // ============================================
+                String fullName = request.getParameter("fullname");
+                String phone = request.getParameter("phone");
+                
+                user.setFullName(fullName);
+                user.setPhone(phone);
+                userDAO.updateUser(user);
+                
+                session.setAttribute("user", user);
+                session.setAttribute("message", "Cập nhật thông tin cá nhân thành công!");
+                
+                // Trả về tab Thông tin
+                response.sendRedirect("profile?tab=info");
+                return;
+            }
         }
         
-        response.sendRedirect("profile?tab=info");
+        response.sendRedirect("login.jsp");
     }
 }

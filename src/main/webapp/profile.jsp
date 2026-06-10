@@ -30,12 +30,17 @@
 
 					<a href="profile?tab=info"
 						class="${currentTab == 'info' ? 'active' : ''}"> Hồ sơ của tôi
-					</a> <a href="sell_book.jsp">Bán sách</a> <a href="profile?tab=orders"
-						class="${currentTab == 'orders' ? 'active' : ''}"> Quản lý đơn
-						hàng </a> <a href="wishlist">Danh sách yêu thích</a> <a
-						href="profile?tab=password"
-						class="${currentTab == 'password' ? 'active' : ''}"> Đổi mật
-						khẩu </a> <a href="logout" style="color: red;">Đăng xuất</a>
+					</a> 
+					<a href="sell_book.jsp">Bán sách</a> 
+					<a href="profile?tab=orders"
+						class="${currentTab == 'orders' ? 'active' : ''}"> Quản lý đơn hàng </a> <a href="wishlist">Danh sách yêu thích
+					</a> 
+					<a href="profile?tab=keys" class="${currentTab == 'keys' ? 'active' : ''}">  Quản lý khóa (Public Key)
+    				</a>
+					<a href="profile?tab=password"
+						class="${currentTab == 'password' ? 'active' : ''}"> Đổi mật khẩu 
+					</a> 
+					<a href="logout" style="color: red;">Đăng xuất</a>
 
 				</nav>
 			</aside>
@@ -110,6 +115,29 @@
 					</table>
 				</c:if>
 
+				<c:if test="${currentTab == 'keys'}">
+    				<div class="profile-header">
+				        <h2>Quản lý khóa bảo mật</h2>
+				        <p>Cập nhật Khóa công khai (Public Key) để sử dụng chức năng Chữ ký điện tử bảo vệ đơn hàng.</p>
+    				</div>
+    
+				    <form action="profile" method="POST">
+				        <input type="hidden" name="formType" value="updateKey">
+        
+				        <div class="form-group">
+				            <label style="color: #07805b; font-size: 16px;">Khóa công khai (Public Key) hiện tại của bạn:</label>
+				            <textarea name="publicKey" class="form-control" rows="10" 
+				                      placeholder="Dán toàn bộ nội dung file public.key từ phần mềm CryptoApp vào đây..." 
+				                      required style="font-family: monospace; font-size: 13px; background-color: #fcfcfc;">${sessionScope.user.publicKey}</textarea>
+				            <small style="color: #666; display: block; margin-top: 10px; line-height: 1.5;">
+				                <b>Hướng dẫn:</b> Mở phần mềm CryptoApp > Chọn Tạo Khóa > Copy toàn bộ đoạn mã bắt đầu bằng <code>-----BEGIN PUBLIC KEY-----</code> và kết thúc bằng <code>-----END PUBLIC KEY-----</code> rồi dán vào ô trên.
+				            </small>
+				        </div>
+        
+				        <button type="submit" class="btn-save" style="background-color: #e44d26;">Lưu Khóa Công Khai</button>
+				    </form>
+				</c:if>
+				
 				<c:if test="${currentTab == 'password'}">
 					<div class="profile-header">
 						<h2>Đổi mật khẩu</h2>
