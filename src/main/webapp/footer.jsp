@@ -21,13 +21,7 @@
 				<li>Email: hotro@bookmarket.vn</li>
 			</ul>
 		</div>
-		<div class="footer-column">
-    		<h3>Bảo mật</h3>
-    		<ul>
-        		<li><a href="${pageContext.request.contextPath}/downloads/ToolMaHoa.jar" download>Tải CryptoApp (Desktop)</a></li>
-        		<li><a href="${pageContext.request.contextPath}/huong-dan-bao-mat.pdf">Hướng dẫn sử dụng</a></li>
-    		</ul>
-		</div>
+		<a href="security_tool.jsp" class="nav-item" style="color: #e44d26; font-weight: bold;">Tải Công Cụ Ký</a>
 	</div>
 	<div class="copyright">&copy; 2025 BookMarket. All rights
 		reserved.</div>
