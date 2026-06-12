@@ -115,4 +115,20 @@ public class UserDAOImpl implements IUserDAO {
 	    }
 	    return null;
 	}
+	
+	public boolean revokeUserKey(String email) {
+	    String sql = "UPDATE users SET key_status = 'REVOKED', key_updated_at = GETDATE() WHERE email = ?";
+	    
+	    // Sử dụng Connection từ lớp DBContext hoặc lớp kết nối của bạn
+	    try (Connection conn = DBContext.getConnection(); 
+	         PreparedStatement ps = conn.prepareStatement(sql)) {
+	        
+	        ps.setString(1, email);
+	        return ps.executeUpdate() > 0; // Trả về true nếu update thành công
+	        
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return false;
+	}
 }

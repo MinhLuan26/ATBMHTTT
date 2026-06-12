@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.KeyPair;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import dao.*;
@@ -35,6 +36,7 @@ public class ProfileServlet extends HttpServlet {
             response.sendRedirect("login.jsp");
             return;
         }
+        
         String sessionMessage = (String) session.getAttribute("message");
         if (sessionMessage != null) {
             request.setAttribute("message", sessionMessage);
@@ -55,6 +57,7 @@ public class ProfileServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
+        
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
 
@@ -64,6 +67,7 @@ public class ProfileServlet extends HttpServlet {
         }
 
         String formType = request.getParameter("formType");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
         try {
             if ("generateKey".equals(formType)) {
@@ -77,7 +81,10 @@ public class ProfileServlet extends HttpServlet {
                 session.setAttribute("user", user);
                 session.setAttribute("newPrivateKey", "true");
                 session.setAttribute("newPrivateKey_download", privKeyStr);
-                session.setAttribute("keyCreatedAt", new Date().toString());
+                
+                // Set trạng thái về ACTIVE khi tạo khóa mới
+                session.setAttribute("keyStatus", "ACTIVE"); 
+                session.setAttribute("keyUpdatedAt", sdf.format(new Date()));
                 session.setAttribute("message", "Tạo khóa mới thành công!");
 
                 response.sendRedirect("profile?tab=keys");
@@ -93,6 +100,10 @@ public class ProfileServlet extends HttpServlet {
                     userDAO.updateUser(user);
                     
                     session.setAttribute("user", user);
+                    
+                    // Set trạng thái về ACTIVE khi tải khóa mới lên
+                    session.setAttribute("keyStatus", "ACTIVE");
+                    session.setAttribute("keyUpdatedAt", sdf.format(new Date()));
                     session.setAttribute("message", "Đã tải lên khóa công khai thành công!");
                 }
                 response.sendRedirect("profile?tab=keys");
@@ -102,8 +113,32 @@ public class ProfileServlet extends HttpServlet {
                 String publicKey = request.getParameter("publicKey");
                 user.setPublicKey(publicKey);
                 userDAO.updateUser(user);
+                
                 session.setAttribute("user", user);
+                session.setAttribute("keyStatus", "ACTIVE");
+                session.setAttribute("keyUpdatedAt", sdf.format(new Date()));
                 session.setAttribute("message", "Đã lưu khóa công khai thành công!");
+                
+                response.sendRedirect("profile?tab=keys");
+                return;
+
+            } 
+            // 🌟 LUỒNG XỬ LÝ THU HỒI KHÓA ĐƯỢC THÊM VÀO ĐÂY 🌟
+            else if ("revokeKey".equals(formType)) {
+                
+                /*
+                 * GHI CHÚ CHO BẠN: 
+                 * Nếu trong class model.User của bạn có thêm thuộc tính trạng thái (ví dụ: statusKey), 
+                 * bạn hãy uncomment 2 dòng dưới đây để lưu thẳng xuống Database:
+                 * * user.setKeyStatus("REVOKED");
+                 * userDAO.updateUser(user);
+                 */
+
+                // Cập nhật biến Session để giao diện Web nhận diện và hiển thị nhãn màu đỏ
+                session.setAttribute("keyStatus", "REVOKED");
+                session.setAttribute("keyUpdatedAt", sdf.format(new Date()));
+                
+                session.setAttribute("message", "🚨 Đã báo mất và hủy kích hoạt khóa thành công! Hệ thống sẽ từ chối xác thực các giao dịch từ khóa này.");
                 response.sendRedirect("profile?tab=keys");
                 return;
 
@@ -111,11 +146,14 @@ public class ProfileServlet extends HttpServlet {
                 user.setFullName(request.getParameter("fullname"));
                 user.setPhone(request.getParameter("phone"));
                 userDAO.updateUser(user);
+                
                 session.setAttribute("user", user);
                 session.setAttribute("message", "Cập nhật hồ sơ thành công!");
+                
                 response.sendRedirect("profile?tab=info");
                 return;
             }
+            
         } catch (Exception e) {
             e.printStackTrace();
             session.setAttribute("message", "Lỗi: " + e.getMessage());
