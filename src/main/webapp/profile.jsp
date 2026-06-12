@@ -173,6 +173,10 @@
 				            background: #10b981; color: white; padding: 5px 12px; 
 				            border-radius: 20px; font-size: 12px; font-weight: bold;
 				        }
+				        .badge-revoked {
+						    background: #ef4444; color: white; padding: 5px 12px; 
+						    border-radius: 20px; font-size: 12px; font-weight: bold;
+						}
 				    </style>
 
 				    <div class="profile-header" style="margin-bottom: 25px;">
@@ -234,6 +238,14 @@
 				            </div>
 				            <button type="submit" class="btn-modern btn-red">Lưu Cập Nhật Khóa</button>
 				        </form>
+				        <c:if test="${not empty sessionScope.user.publicKey}">
+					        <form action="profile" method="POST" onsubmit="return confirm('🚨 CẢNH BÁO: Bạn có chắc chắn muốn báo mất và thu hồi khóa này? Hành động này KHÔNG THỂ hoàn tác!');" style="margin-top: 15px;">
+					            <input type="hidden" name="formType" value="revokeKey">
+					            <button type="submit" class="btn-modern" style="background-color: #991b1b; color: white; width: 100%; border: 1px solid #7f1d1d;">
+					                🚨 Báo mất / Thu hồi khóa khẩn cấp
+					            </button>
+					        </form>
+				        </c:if>
 				    </div>
 				
 				    <div class="modern-card" style="padding: 25px 30px;">
@@ -241,20 +253,29 @@
 				        <table class="cart-table" style="font-size: 14px; margin-bottom: 0; width: 100%; border-collapse: collapse;">
 				            <thead>
 				                <tr style="border-bottom: 2px solid #e5e7eb; color: #4b5563;">
-				                    <th style="padding: 12px 10px; text-align: left;">Hành động hệ thống</th>
+				                    <th style="padding: 12px 10px; text-align: left;">Khóa bảo mật</th>
 				                    <th style="padding: 12px 10px; text-align: center;">Trạng thái</th>
-				                    <th style="padding: 12px 10px; text-align: right;">Thời gian ghi nhận</th>
+				                    <th style="padding: 12px 10px; text-align: right;">Cập nhật lần cuối</th>
 				                </tr>
 				            </thead>
 				            <tbody>
 				                <c:if test="${not empty sessionScope.user.publicKey}">
 				                    <tr>
-				                        <td style="padding: 15px 10px; color: #374151;">Đã thiết lập 01 Khóa Công Khai (RSA)</td>
+				                        <td style="padding: 15px 10px; color: #374151; font-family: monospace;">
+				                            ...${sessionScope.user.publicKey.substring(sessionScope.user.publicKey.length() - 20)}
+				                        </td>
 				                        <td style="padding: 15px 10px; text-align: center;">
-				                            <span class="badge-active">Đang hoạt động</span>
+				                            <c:choose>
+				                                <c:when test="${sessionScope.keyStatus == 'REVOKED'}">
+				                                    <span class="badge-revoked">Đã thu hồi</span>
+				                                </c:when>
+				                                <c:otherwise>
+				                                    <span class="badge-active">Đang hoạt động</span>
+				                                </c:otherwise>
+				                            </c:choose>
 				                        </td>
 				                        <td style="padding: 15px 10px; text-align: right; color: #6b7280;">
-				                            ${not empty sessionScope.keyCreatedAt ? sessionScope.keyCreatedAt : 'Gần đây nhất'}
+				                            ${not empty sessionScope.keyUpdatedAt ? sessionScope.keyUpdatedAt : 'Vừa cập nhật'}
 				                        </td>
 				                    </tr>
 				                </c:if>
