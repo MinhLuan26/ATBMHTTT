@@ -16,13 +16,10 @@ import dao.IBookDAO;
 /**
  * Servlet implementation class HomeServlet
  */
-@WebServlet("/home")// ánh xạ với Ủl /home
+@WebServlet("/home")
 public class HomeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private IBookDAO bookDAO;
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
     public HomeServlet() {
     	// Giải quyết Khó khăn (Quy tắc 3): Lại "tự đi chợ" (new)
         this.bookDAO = new BookDAOImpl();
@@ -39,7 +36,7 @@ public class HomeServlet extends HttpServlet {
 		// "request.setAttribute" là "cầu nối" từ Controller -> View
         request.setAttribute("featuredBooks", bookList);
         // CHUYỂN TIẾP (FORWARD) ĐẾN VIEW
-        request.getRequestDispatcher("index.jsp").forward(request, response);
+        request.getRequestDispatcher("home.jsp").forward(request, response);
 	}
 
 	/**

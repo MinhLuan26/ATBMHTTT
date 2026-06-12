@@ -7,7 +7,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Đăng nhập - BookMarket</title>
-<%-- Dòng này sẽ "gọi" toàn bộ CSS thiết kế 2 cột của bạn --%>
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/homepage.css">
 </head>
