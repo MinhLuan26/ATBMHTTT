@@ -64,13 +64,9 @@ public class AddToCartServlet extends HttpServlet {
         }
 
         if (user == null) {
-            // GUEST
             cart.add(book, quantity);
         } else {
-            // USER LOGIN
             cartDAO.addItemToCart(user.getId(), bookId, quantity);
-
-            // đồng bộ DB → Cart
             Map<Integer, CartItem> dbCart = cartDAO.getCartByUserId(user.getId());
             cart.clear();
             for (CartItem item : dbCart.values()) {

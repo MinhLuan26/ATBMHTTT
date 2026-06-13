@@ -239,13 +239,13 @@
 				            <button type="submit" class="btn-modern btn-red">Lưu Cập Nhật Khóa</button>
 				        </form>
 				        <c:if test="${not empty sessionScope.user.publicKey}">
-					        <form action="profile" method="POST" onsubmit="return confirm('🚨 CẢNH BÁO: Bạn có chắc chắn muốn báo mất và thu hồi khóa này? Hành động này KHÔNG THỂ hoàn tác!');" style="margin-top: 15px;">
-					            <input type="hidden" name="formType" value="revokeKey">
-					            <button type="submit" class="btn-modern" style="background-color: #991b1b; color: white; width: 100%; border: 1px solid #7f1d1d;">
-					                🚨 Báo mất / Thu hồi khóa khẩn cấp
-					            </button>
-					        </form>
-				        </c:if>
+						    <form id="revokeKeyForm" action="profile" method="POST" style="margin-top: 15px;">
+						        <input type="hidden" name="formType" value="revokeKey">
+						        <button type="button" class="btn-modern" onclick="showRevokeModal()" style="background-color: #991b1b; color: white; width: 100%; border: 1px solid #7f1d1d; padding: 12px 20px; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; transition: background 0.2s;">
+						            🚨 Báo mất / Thu hồi khóa khẩn cấp
+						        </button>
+						    </form>
+						</c:if>
 				    </div>
 				
 				    <div class="modern-card" style="padding: 25px 30px;">
@@ -325,6 +325,66 @@
 	</main>
 
 	<jsp:include page="footer.jsp" />
-
+	<!-- Giao diện Hộp thoại Cảnh báo HTML Modern Modal -->
+	<div id="customRevokeModal" style="display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(15, 23, 42, 0.6); justify-content: center; align-items: center; backdrop-filter: blur(4px); transition: all 0.3s ease;">
+	    <div style="background: #ffffff; padding: 30px; border-radius: 16px; width: 440px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); text-align: center; border: 1px solid #f3f4f6; animation: slideInModal 0.25s cubic-bezier(0.16, 1, 0.3, 1);">
+	        
+	        <!-- Biểu tượng cảnh báo lớn -->
+	        <div style="background-color: #fee2e2; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 0 auto 18px auto;">
+	            <span style="font-size: 28px;">⚠️</span>
+	        </div>
+	        
+	        <!-- Nội dung thông điệp -->
+	        <h3 style="margin-top: 0; color: #111827; font-size: 20px; font-weight: 700; margin-bottom: 10px;">Xác nhận thu hồi khóa</h3>
+	        <p style="color: #4b5563; font-size: 14px; line-height: 1.6; margin-bottom: 25px; padding: 0 10px;">
+	            Bạn có chắc chắn muốn báo mất và thu hồi khóa này không? <br>
+	            <span style="color: #dc2626; font-weight: 600; background-color: #fef2f2; padding: 2px 6px; border-radius: 4px; margin-top: 5px; display: inline-block;">
+	                Hành động này KHÔNG THỂ hoàn tác!
+	            </span>
+	        </p>
+	        
+	        <!-- Các nút bấm hành động -->
+	        <div style="display: flex; gap: 12px; justify-content: center;">
+	            <button type="button" onclick="hideRevokeModal()" style="background: #ffffff; color: #374151; border: 1px solid #d1d5db; padding: 10px 24px; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.2s; flex: 1;">
+	                Hủy bỏ
+	            </button>
+	            <button type="button" onclick="confirmRevokeKey()" style="background: #dc2626; color: #ffffff; border: none; padding: 10px 24px; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; box-shadow: 0 4px 12px rgba(220,38,38,0.25); transition: all 0.2s; flex: 1;">
+	                Xác nhận hủy
+	            </button>
+	        </div>
+	    </div>
+	</div>
+	
+	<!-- Hiệu ứng chuyển động mượt mà khi Modal xuất hiện -->
+	<style>
+	    @keyframes slideInModal {
+	        from { transform: scale(0.95); opacity: 0; }
+	        to { transform: scale(1); opacity: 1; }
+	    }
+	</style>
+	
+	<!-- Logic JavaScript điều khiển luồng -->
+	<script>
+	    function showRevokeModal() {
+	        document.getElementById('customRevokeModal').style.display = 'flex';
+	    }
+	
+	    function hideRevokeModal() {
+	        document.getElementById('customRevokeModal').style.display = 'none';
+	    }
+	
+	    function confirmRevokeKey() {
+	        // Thực hiện submit form ngầm lên ProfileServlet
+	        document.getElementById('revokeKeyForm').submit();
+	    }
+	    
+	    // Đóng modal khi người dùng click ra vùng xám bên ngoài hộp thoại
+	    window.onclick = function(event) {
+	        var modal = document.getElementById('customRevokeModal');
+	        if (event.target == modal) {
+	            hideRevokeModal();
+	        }
+	    }
+	</script>
 </body>
 </html>

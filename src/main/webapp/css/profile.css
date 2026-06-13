@@ -1,15 +1,13 @@
 @charset "UTF-8";
 
-/* Container chính */
 .profile-container {
 	max-width: 1100px;
 	margin: 40px auto;
-	display: flex; /* Layout 2 cột */
+	display: flex;
 	gap: 30px;
 	align-items: flex-start;
 }
 
-/* --- CỘT TRÁI (SIDEBAR) --- */
 .profile-sidebar {
 	flex: 1;
 	background: #fff;
@@ -30,7 +28,7 @@
 	height: 100px;
 	border-radius: 50%;
 	object-fit: cover;
-	border: 3px solid #07805b; /* Viền xanh */
+	border: 3px solid #07805b;
 	margin-bottom: 10px;
 }
 
@@ -54,7 +52,6 @@
 	color: white;
 }
 
-/* --- CỘT PHẢI (MAIN CONTENT) --- */
 .profile-content {
 	flex: 3;
 	background: #fff;
@@ -71,7 +68,6 @@
 	margin-bottom: 25px;
 }
 
-/* Form Styles */
 .form-group {
 	margin-bottom: 20px;
 }
@@ -97,7 +93,6 @@
 	outline: none;
 }
 
-/* Nút Lưu */
 .btn-save {
 	background-color: #07805b;
 	color: white;
@@ -120,7 +115,6 @@
 	border-radius: 5px;
 	margin-bottom: 20px;
 }
-/* Bảng đơn hàng */
 .order-table {
 	width: 100%;
 	border-collapse: collapse;
@@ -140,7 +134,6 @@
 	color: #555;
 }
 
-/* Trạng thái đơn hàng */
 .status-badge {
 	padding: 5px 10px;
 	border-radius: 15px;

@@ -45,11 +45,7 @@ public class LoginServlet extends HttpServlet {
 
         String email = request.getParameter("email").trim();
         String plainPassword = request.getParameter("password").trim();
-
-        // 1. Tìm xem email này đã tồn tại trong CSDL chưa
         User user = userDAO.findByEmail(email);
-
-        // 2. XỬ LÝ TÀI KHOẢN THẬT: Nếu chưa có trong DB, tự động INSERT thành tài khoản thật luôn
         if (user == null) {
             String insertSql = "INSERT INTO users (fullname, email, password, phone, role, created_at) VALUES (?, ?, ?, ?, ?, GETDATE())";
             
@@ -59,19 +55,15 @@ public class LoginServlet extends HttpServlet {
                 String shortName = email.split("@")[0];
                 ps.setString(1, "Thành viên (" + shortName + ")");
                 ps.setString(2, email);
-                // Mã hóa mật khẩu bằng BCrypt để đồng bộ dữ liệu chuẩn
                 ps.setString(3, BCrypt.hashpw(plainPassword, BCrypt.gensalt()));
                 ps.setString(4, "0123456789");
                 ps.setString(5, "BUYER");
                 
                 int affectedRows = ps.executeUpdate();
                 if (affectedRows > 0) {
-                    // Lấy ID tự động tăng mà SQL Server vừa cấp cho User này
                     try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
                         if (generatedKeys.next()) {
                             int newUserId = generatedKeys.getInt(1);
-                            
-                            // Đổ ngược dữ liệu thật vào đối tượng user
                             user = new User();
                             user.setId(newUserId);
                             user.setEmail(email);
@@ -88,15 +80,10 @@ public class LoginServlet extends HttpServlet {
             }
         }
 
-        // 3. Đưa đối tượng User thật vào Session
         HttpSession session = request.getSession();
         session.setAttribute("user", user);
-
-        // --- HỢP NHẤT GIỎ HÀNG TỪ SESSION VÀ DB ---
         Cart sessionCart = (Cart) session.getAttribute("cart");
         Cart dbCart = new Cart();
-
-        // Vì tất cả đã là User thật nên nạp thẳng giỏ hàng từ DB mà không cần check id != 999
         if (user != null) {
             var dbCartItems = cartDAO.getCartByUserId(user.getId());
             if (dbCartItems != null) {
@@ -105,7 +92,7 @@ public class LoginServlet extends HttpServlet {
         }
 
         if (sessionCart != null) {
-            final User finalUser = user; // Đảm bảo thuộc tính final cho Lambda
+            final User finalUser = user;
             sessionCart.getItems().forEach(item -> {
                 dbCart.add(item.getBook(), item.getQuantity());
                 if (finalUser != null) {
@@ -113,12 +100,8 @@ public class LoginServlet extends HttpServlet {
                 }
             });
         }
-
-        // Lưu lại Giỏ hàng vào session
         session.setAttribute("cart", dbCart);
         session.setMaxInactiveInterval(30 * 60);
-
-        // Chuyển hướng về trang chủ
         response.sendRedirect(request.getContextPath());
     }
 }

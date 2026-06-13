@@ -7,21 +7,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     input.addEventListener("keyup", function (e) {
         const keyword = this.value.trim();
-
-        // Enter → để form submit bình thường
         if (e.key === "Enter") {
             box.style.display = "none";
             return;
         }
-
-        // Xoá nội dung
         if (keyword.length === 0) {
             box.innerHTML = "";
             box.style.display = "none";
             return;
         }
-
-        // Debounce 300ms
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(() => {
          fetch(contextPath + "/search-suggest?q=" + encodeURIComponent(keyword))
@@ -31,8 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 .catch(err => console.error(err));
         }, 300);
     });
-
-    // Ẩn khi click ra ngoài
+	
     document.addEventListener("click", function (e) {
         if (!e.target.closest(".search-area")) {
             box.style.display = "none";
@@ -50,8 +43,6 @@ document.addEventListener("DOMContentLoaded", function () {
         data.forEach(book => {
             const div = document.createElement("div");
             div.className = "suggest-item";
-
-            // Highlight keyword
             const regex = new RegExp(`(${keyword})`, "gi");
             div.innerHTML = book.title.replace(regex, "<strong>$1</strong>");
 

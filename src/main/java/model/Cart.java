@@ -6,16 +6,6 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-/**
- * Cart stored in session keeps mapping bookId -> CartItem.
- * Methods:
- *  - add(Book, qty): add quantity (if exists, increase)
- *  - update(bookId, qty): set quantity (<=0 removes)
- *  - remove(bookId): remove item
- *  - getItems(): return collection of CartItem
- *  - getTotal(): BigDecimal sum of item totals
- *  - clear(): empty cart
- */
 public class Cart implements Serializable{
     private Map<Integer, CartItem> items = new LinkedHashMap<>();
 

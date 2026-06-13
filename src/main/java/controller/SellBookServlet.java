@@ -9,19 +9,15 @@ import model.Book;
 import model.User;
 import java.math.BigDecimal;
 
-/** Servlet xử lý đăng bán sách */
 @WebServlet("/sell_book")
 @MultipartConfig(fileSizeThreshold=1024*1024*2, maxFileSize=1024*1024*10, maxRequestSize=1024*1024*50)
 public class SellBookServlet extends HttpServlet {
 
     private BookDAOImpl bookDAO = new BookDAOImpl();
-
-    /** GET: hiện form đăng bán */
     protected void doGet(HttpServletRequest rq, HttpServletResponse rs) throws IOException, ServletException {
         rq.getRequestDispatcher("sell_book.jsp").forward(rq, rs);
     }
-
-    /** POST: nhận thông tin sách và lưu DB */
+    
     protected void doPost(HttpServletRequest rq, HttpServletResponse rs) throws IOException, ServletException {
         HttpSession session = rq.getSession();
         User user = (User) session.getAttribute("user");
@@ -53,15 +49,12 @@ public class SellBookServlet extends HttpServlet {
             fileName = "images/default.png";
         }
 
-        // --- TẠO ĐỐI TƯỢNG BOOK VÀ ĐỔ DỮ LIỆU ---
         Book b = new Book();
         b.setTitle(title); 
         b.setAuthor(author); 
         b.setPrice(price);
         b.setDescription(desc); 
         b.setImageUrl(fileName.startsWith("images/") ? fileName : "images/" + fileName);
-        
-        // 🔥 SỬA TẠI ĐÂY: Bổ sung trạng thái kích hoạt hiển thị và gắn ID người bán
         b.setStatus("ACTIVE"); 
         b.setSellerId(user.getId()); 
 

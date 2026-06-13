@@ -1,7 +1,4 @@
-// ====== LẤY CONTEXT PATH ======
 const contextPath = document.body.getAttribute("data-context");
-
-// ====== ĐỒNG BỘ SỐ LƯỢNG ======
 const q = document.getElementById("quantity");
 const buy = document.getElementById("buy-now-quantity");
 const cart = document.getElementById("cart-quantity");
@@ -13,7 +10,6 @@ if (q && buy && cart) {
     });
 }
 
-// ====== TOAST THÔNG BÁO ======
 function showToast(msg) {
     let toast = document.createElement("div");
     toast.className = "toast-msg";
@@ -27,7 +23,6 @@ function showToast(msg) {
     }, 2000);
 }
 
-// ====== WISHLIST TOGGLE ======
 document.addEventListener("DOMContentLoaded", function () {
     const hearts = document.querySelectorAll(".wishlist-heart");
 

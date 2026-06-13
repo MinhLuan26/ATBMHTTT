@@ -1,17 +1,13 @@
 @charset "UTF-8";
-/* Import font Playfair (cho Logo/Tiêu đề) và Roboto (cho Nội dung) */
 @import
 	url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;500;700&display=swap')
 	;
-
-/* --- 0. Biến và Thiết lập Chung --- */
+	
 :root {
-	/* -- BIẾN CŨ CỦA BẠN (GIỮ NGUYÊN) -- */ 
 	--main-green: #07805b; 
 	--light-cream: #FFFBF0; 
 	--dark-text: #000000; 
 	--light-text: #f9f9f9;
-	/* -- BIẾN MỚI CHO GIAO DIỆN MẪU A -- */ 
 	--price-red: #d32f2f; 
 	--text-gray: #666; 
 	--card-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); 
@@ -23,25 +19,17 @@ body {
 	color: var(- -dark-text);
 	margin: 0;
 	font-family: 'Roboto', sans-serif;
-	/* Dùng font hiện đại cho nội dung */
 }
 
 .container {
 	max-width: 1200px;
 	margin: 0 auto;
 	padding: 0 15px;
-	/* Lưu ý: Flex ở đây có thể ảnh hưởng đến các section khác, 
-       nhưng tôi giữ nguyên vì header của bạn cần nó */
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 }
 
-/* ==========================================================================
-   PHẦN 1: HEADER (GIỮ NGUYÊN CODE CŨ CỦA BẠN)
-   ========================================================================== */
-
-/* --- Header Top (Thanh xanh đậm) --- */
 .header-top {
 	background-color: var(- -main-green);
 	padding: 15px 0;
@@ -59,7 +47,6 @@ body {
 	white-space: nowrap;
 }
 
-/* Khu vực tìm kiếm */
 .search-area {
 	flex-grow: 1;
 	margin-right: 30px;
@@ -81,7 +68,6 @@ body {
 	outline: none;
 }
 
-/* Đã sửa lỗi cú pháp nhỏ ở đây: button[type="submit"] */
 .search-form button {
 	background-color: #ffffff;
 	border: none;
@@ -95,7 +81,6 @@ body {
 	height: 20px;
 }
 
-/* Khu vực Người dùng */
 .user-area {
 	display: flex;
 	align-items: center;
@@ -109,7 +94,7 @@ body {
 	gap: 8px;
 	font-size: 14px;
 	font-weight: 500;
-	text-decoration: none; /* Bỏ gạch chân */
+	text-decoration: none;
 }
 
 .nav-icon {
@@ -133,7 +118,6 @@ body {
 	font-weight: bold;
 }
 
-/* --- Header Nav (Thanh kem) --- */
 .header-nav {
 	background-color: var(- -light-cream);
 	border-bottom: 1px solid #e0e0e0;
@@ -146,7 +130,7 @@ body {
 	font-weight: 600;
 	border-bottom: 3px solid transparent;
 	transition: border-color 0.3s ease;
-	padding: 20px 0; /* Bỏ comment để nav đẹp hơn */
+	padding: 20px 0;
 }
 
 .header-nav .nav-item.active, .header-nav .nav-item:hover {
@@ -159,7 +143,6 @@ body {
 	color: var(- -dark-text);
 }
 
-/* --- Main Banner --- */
 .main-banner {
 	width: 100%;
 }
@@ -170,21 +153,15 @@ body {
 	display: block;
 }
 
-/* ==========================================================================
-   PHẦN 2: GIAO DIỆN SẢN PHẨM MỚI (MẪU A - SANG TRỌNG)
-   ========================================================================== */
 .product-section {
 	padding: 60px 0;
-	display: block; /* Ghi đè display:flex của .container cha nếu cần */
+	display: block;
 }
 
-/* Vì .container ở trên đang dùng flex cho header, 
-   ta cần reset lại cho phần nội dung bên dưới */
 .product-section .container {
 	display: block;
 }
 
-/* --- 1. Tiêu đề Section (Căn giữa, đẹp) --- */
 .section-header {
 	text-align: center;
 	margin-top: 10px;
@@ -214,7 +191,6 @@ body {
 	border-radius: 2px;
 }
 
-/* --- 2. Lưới Sách (Book Grid) --- */
 .book-grid {
 	display: flex;
 	flex-wrap: wrap;
@@ -222,7 +198,6 @@ body {
 	justify-content: center;
 }
 
-/* --- 3. Thẻ Sách (Book Card - Style Mẫu A) --- */
 .book-card {
 	background: #fff;
 	width: 260px;
@@ -232,16 +207,15 @@ body {
 	transition: transform 0.3s ease, box-shadow 0.3s ease;
 	display: flex;
 	flex-direction: column;
-	border: 1px solid #eee; /* Viền mờ thay vì đen đậm */
+	border: 1px solid #eee;
 }
 
 .book-card:hover {
-	transform: translateY(-10px); /* Bay lên khi di chuột */
+	transform: translateY(-10px);
 	box-shadow: var(- -hover-shadow);
 	border-color: var(- -main-green);
 }
 
-/* Ảnh sách */
 .card-image {
 	height: 320px;
 	overflow: hidden;
@@ -256,10 +230,9 @@ body {
 }
 
 .book-card:hover .card-image img {
-	transform: scale(1.05); /* Phóng to ảnh nhẹ khi hover */
+	transform: scale(1.05);
 }
 
-/* Nội dung sách */
 .card-content {
 	padding: 15px;
 	text-align: left;
@@ -267,14 +240,14 @@ body {
 
 .card-content h4 {
 	margin: 0 0 5px;
-	height: 44px; /* Giới hạn 2 dòng tiêu đề */
+	height: 44px;
 	overflow: hidden;
 	line-height: 1.4;
 }
 
 .card-content h4 a {
 	text-decoration: none;
-	color: var(- -text-dark); /* Dùng biến --text-dark */
+	color: var(- -text-dark);
 	font-size: 1.1rem;
 	font-weight: 700;
 	transition: color 0.2s;
@@ -297,7 +270,6 @@ body {
 	margin: 10px 0 0;
 }
 
-/* Nút Chi tiết (Nằm dưới cùng card) */
 .card-action {
 	padding: 0 15px 20px;
 	margin-top: auto;
@@ -309,19 +281,18 @@ body {
 	text-decoration: none;
 	padding: 10px;
 	border: 1px solid var(- -main-green);
-	color: var(- -main-green); /* Chữ xanh */
-	background-color: transparent; /* Nền trong suốt */
+	color: var(- -main-green);
+	background-color: transparent;
 	border-radius: 5px;
 	font-weight: 600;
 	transition: all 0.3s;
 }
 
 .btn-detail:hover {
-	background-color: var(- -main-green); /* Hover thành nền xanh */
-	color: #fff; /* Chữ trắng */
+	background-color: var(- -main-green);
+	color: #fff;
 }
 
-/* --- 4. Nút "Xem Thêm" (Cuối trang) --- */
 .view-more-area {
 	text-align: center;
 	margin-top: 30px;

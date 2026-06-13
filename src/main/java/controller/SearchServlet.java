@@ -20,8 +20,6 @@ public class SearchServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest rq, HttpServletResponse rs)
             throws IOException, ServletException {
-
-        // 🔥 FIX: đọc đúng name="query"
         String keyword = rq.getParameter("query");
         if (keyword == null) keyword = "";
 

@@ -1,8 +1,7 @@
 package model;
 
 import java.io.Serializable;
-//Serializable là một "marker" interface, hữu ích khi làm việc với Session
-//Tạo class JavaBean User.java
+
 public class User implements Serializable{
 	private static final long seriaVersionUID = 1l;
 	

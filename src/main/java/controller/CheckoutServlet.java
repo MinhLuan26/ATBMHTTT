@@ -21,7 +21,7 @@ public class CheckoutServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
         Object cartObj = session.getAttribute("cart");
-        User user = (User) session.getAttribute("user"); // Lấy thông tin user
+        User user = (User) session.getAttribute("user");
 
         if (!(cartObj instanceof Cart)) {
             session.removeAttribute("cart");
@@ -35,16 +35,10 @@ public class CheckoutServlet extends HttpServlet {
             return;
         }
 
-        // --- TÍCH HỢP TẠO MÃ HASH ĐỂ KÝ ĐIỆN TỬ ---
         if (user != null) {
             try {
-                // Tạo chuỗi dữ liệu gốc (phải đồng bộ với cấu trúc trong CryptoApp của bạn)
                 String rawData = "USER_" + user.getId() + "_TOTAL_" + cart.getTotal();
-                
-                // Băm bằng SHA-256
                 String orderHash = Hambam.hashText(rawData, "SHA-256");
-                
-                // Gửi mã băm sang JSP
                 request.setAttribute("orderHash", orderHash);
             } catch (Exception e) {
                 e.printStackTrace();

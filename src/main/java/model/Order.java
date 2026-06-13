@@ -11,13 +11,11 @@ public class Order {
     private String status;
     private Date orderDate;
     private String shippingAddress;
-    private List<OrderDetail> details; // Thêm trường này để lưu danh sách các món hàng trong đơn
-
-    // 1. Constructor không tham số (Bắt buộc phải có vì OrderDAOImpl sử dụng: new Order())
+    private List<OrderDetail> details;
+    
     public Order() {
     }
-
-    // 2. Constructor có tham số hiện tại của bạn
+    
     public Order(int id, int userId, BigDecimal totalPrice, String status, Date orderDate, String shippingAddress) {
         super();
         this.id = id;
@@ -27,8 +25,6 @@ public class Order {
         this.orderDate = orderDate;
         this.shippingAddress = shippingAddress;
     }
-
-    // === CÁC HÀM GETTER VÀ SETTER ===
 
     public int getId() {
         return id;
@@ -77,8 +73,7 @@ public class Order {
     public void setShippingAddress(String shippingAddress) {
         this.shippingAddress = shippingAddress;
     }
-
-    // 3. THÊM GETTER VÀ SETTER CHO DETAILS (Giải quyết lỗi bắt tạo method getDetails)
+    
     public List<OrderDetail> getDetails() {
         return details;
     }

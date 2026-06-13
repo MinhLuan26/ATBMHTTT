@@ -13,37 +13,21 @@ import java.util.List;
 import dao.BookDAOImpl;
 import dao.IBookDAO;
 
-/**
- * Servlet implementation class HomeServlet
- */
 @WebServlet("/home")
 public class HomeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private IBookDAO bookDAO;
     public HomeServlet() {
-    	// Giải quyết Khó khăn (Quy tắc 3): Lại "tự đi chợ" (new)
         this.bookDAO = new BookDAOImpl();
     }
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		// Gọi Model (DAO) để lấy dữ liệu 
 		List<Book> bookList = bookDAO.getFeaturedBooks();
-		// gửi dữ liệu sang view(JSP)
-		// "request.setAttribute" là "cầu nối" từ Controller -> View
         request.setAttribute("featuredBooks", bookList);
-        // CHUYỂN TIẾP (FORWARD) ĐẾN VIEW
         request.getRequestDispatcher("home.jsp").forward(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

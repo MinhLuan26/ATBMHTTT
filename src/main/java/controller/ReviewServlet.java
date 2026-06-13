@@ -16,12 +16,10 @@ public class ReviewServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest rq, HttpServletResponse rs) throws ServletException, IOException {
-        rq.setCharacterEncoding("UTF-8"); // Đọc bình luận có dấu Tiếng Việt
+        rq.setCharacterEncoding("UTF-8");
         
         HttpSession session = rq.getSession();
         User user = (User) session.getAttribute("user");
-        
-        // Nếu chưa đăng nhập thì bắt buộc chuyển qua trang login
         if (user == null) {
             rs.sendRedirect("login.jsp");
             return;
@@ -39,8 +37,6 @@ public class ReviewServlet extends HttpServlet {
             r.setComment(comment);
 
             reviewDAO.add(r);
-
-            // Quay trở lại đúng trang chi tiết của cuốn sách vừa đánh giá
             rs.sendRedirect("product-detail?id=" + bookId);
         } catch (Exception e) {
             e.printStackTrace();

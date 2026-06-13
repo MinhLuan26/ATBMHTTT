@@ -1,9 +1,7 @@
-/* vùng search */
 .search-area {
     position: relative;
 }
 
-/* hộp gợi ý */
 .search-suggest {
     position: absolute;
     top: 100%;
@@ -18,7 +16,6 @@
     overflow-y: auto;
 }
 
-/* từng dòng gợi ý */
 .suggest-item {
     padding: 10px 14px;
     cursor: pointer;
@@ -26,12 +23,10 @@
     color: #333;
 }
 
-/* hover */
 .suggest-item:hover {
     background-color: #f2f2f2;
 }
 
-/* highlight keyword */
 .suggest-item strong {
     color: #e53935;
     font-weight: 600;

@@ -7,13 +7,10 @@ import dao.BookDAOImpl;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-/** Lọc sách theo giá, tình trạng */
 @WebServlet("/filter")
 public class FilterServlet extends HttpServlet {
 
     private BookDAOImpl bookDAO = new BookDAOImpl();
-
-    /** GET: áp dụng filter và trả danh sách */
     protected void doGet(HttpServletRequest rq,HttpServletResponse rs)throws IOException,ServletException{
         String min = rq.getParameter("min");
         String max = rq.getParameter("max");

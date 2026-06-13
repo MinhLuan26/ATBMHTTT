@@ -39,7 +39,6 @@ public class ReviewDAOImpl implements ReviewDAO {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     Review r = new Review();
-                    // Lưu ý: Cập nhật lại các thuộc tính theo đúng Setter trong Model Review của bạn
                     r.setId(rs.getInt("id"));
                     r.setUserId(rs.getInt("user_id"));
                     r.setBookId(rs.getInt("book_id"));

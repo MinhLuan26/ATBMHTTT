@@ -13,10 +13,6 @@ import java.util.Map;
 import database.DBContext;
 
 public class CartDAOImpl implements ICartDAO {
-
-	/**
-	 * Tìm cart_id của user. Nếu chưa có -> tạo mới cart và trả về cart_id vừa tạo.
-	 */
 	private int findOrCreateCart(Connection conn, int userId) throws SQLException {
 		int cartId = 0;
 
@@ -29,8 +25,6 @@ public class CartDAOImpl implements ICartDAO {
 				}
 			}
 		}
-
-		// Nếu chưa có cart -> tạo mới
 		if (cartId == 0) {
 			String insertSql = "INSERT INTO carts (user_id) OUTPUT INSERTED.cart_id VALUES (?)";
 			try (PreparedStatement ps = conn.prepareStatement(insertSql)) {
@@ -45,10 +39,7 @@ public class CartDAOImpl implements ICartDAO {
 
 		return cartId;
 	}
-
-	/**
-	 * Lấy toàn bộ giỏ hàng của user từ CSDL
-	 */
+	
 	@Override
 	public Map<Integer, CartItem> getCartByUserId(int userId) {
 		Map<Integer, CartItem> cart = new HashMap<>();
@@ -83,10 +74,7 @@ public class CartDAOImpl implements ICartDAO {
 
 		return cart;
 	}
-
-	/**
-	 * Thêm sách vào giỏ hàng (user đã đăng nhập) Có xử lý TRANSACTION
-	 */
+	
 	@Override
 	public void addItemToCart(int userId, int bookId, int quantity) {
 
@@ -102,8 +90,6 @@ public class CartDAOImpl implements ICartDAO {
 
 			int cartId = findOrCreateCart(conn, userId);
 			int currentQuantity = 0;
-
-			// Kiểm tra đã tồn tại sách trong giỏ chưa
 			try (PreparedStatement ps = conn.prepareStatement(checkSql)) {
 				ps.setInt(1, cartId);
 				ps.setInt(2, bookId);
@@ -115,7 +101,6 @@ public class CartDAOImpl implements ICartDAO {
 			}
 
 			if (currentQuantity > 0) {
-				// UPDATE
 				try (PreparedStatement ps = conn.prepareStatement(updateSql)) {
 					ps.setInt(1, quantity);
 					ps.setInt(2, cartId);
@@ -123,7 +108,6 @@ public class CartDAOImpl implements ICartDAO {
 					ps.executeUpdate();
 				}
 			} else {
-				// INSERT
 				try (PreparedStatement ps = conn.prepareStatement(insertSql)) {
 					ps.setInt(1, cartId);
 					ps.setInt(2, bookId);
@@ -138,10 +122,7 @@ public class CartDAOImpl implements ICartDAO {
 			e.printStackTrace();
 		}
 	}
-
-	/**
-	 * Gộp giỏ hàng session vào giỏ hàng DB khi user đăng nhập
-	 */
+	
 	@Override
 	public void mergeCart(Map<Integer, CartItem> sessionCart, int userId) {
 		if (sessionCart == null || sessionCart.isEmpty())
@@ -151,10 +132,7 @@ public class CartDAOImpl implements ICartDAO {
 			addItemToCart(userId, item.getBook().getId(), item.getQuantity());
 		}
 	}
-
-	/**
-	 * Xóa 1 sản phẩm khỏi giỏ hàng
-	 */
+	
 	@Override
 	public void removeItemFromCart(int userId, int bookId) {
 

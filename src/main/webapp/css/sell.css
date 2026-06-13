@@ -1,14 +1,13 @@
 @charset "UTF-8";
 
-:root { -
-	-main-green: #07805b; -
-	-green-light: #0a9f70; -
-	-gray-border: #dcdcdc; -
-	-gray-bg: #f7f7f7; -
+:root { 
+	-main-green: #07805b; 
+	-green-light: #0a9f70; 
+	-gray-border: #dcdcdc; 
+	-gray-bg: #f7f7f7; 
 	-radius: 14px;
 }
 
-/* ===== Khung form ===== */
 .sell-form {
 	max-width: 850px;
 	margin: 35px auto;
@@ -20,8 +19,6 @@
 	animation: fadeIn 0.4s ease;
 }
 
-/* Animation */
-@
 keyframes fadeIn {from { opacity:0;
 	transform: translateY(15px);
 }
@@ -33,7 +30,6 @@ to {
 
 }
 
-/* ===== Tiêu đề ===== */
 .sell-form h2 {
 	text-align: center;
 	font-size: 28px;
@@ -42,7 +38,6 @@ to {
 	margin-bottom: 25px;
 }
 
-/* ===== Label ===== */
 .sell-form label {
 	display: block;
 	font-weight: 600;
@@ -51,7 +46,6 @@ to {
 	font-size: 15px;
 }
 
-/* ===== Input & Textarea ===== */
 .sell-form input, .sell-form textarea, .sell-form select {
 	width: 100%;
 	padding: 14px 16px;
@@ -70,13 +64,11 @@ to {
 	box-shadow: 0 0 0 3px rgba(7, 128, 91, 0.15);
 }
 
-/* ===== Textarea ===== */
 .sell-form textarea {
 	min-height: 130px;
 	resize: vertical;
 }
 
-/* ===== Bố cục 2 cột ===== */
 .sell-row {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
@@ -89,7 +81,6 @@ to {
 	}
 }
 
-/* ===== Upload ảnh ===== */
 .upload-box {
 	border: 2px dashed #cfcfcf;
 	padding: 25px;
@@ -107,7 +98,6 @@ to {
 	color: var(- -main-green);
 }
 
-/* Hiển thị ảnh preview */
 .preview-img {
 	margin-top: 18px;
 	width: 160px;
@@ -116,7 +106,6 @@ to {
 	border: 1px solid #ddd;
 }
 
-/* ===== Nút Submit ===== */
 .sell-form button {
 	width: 100%;
 	padding: 15px;

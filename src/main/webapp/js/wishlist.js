@@ -1,7 +1,4 @@
-// Lấy context path từ body
 const contextPath = document.body.getAttribute("data-context");
-
-// XÓA KHỎI WISHLIST
 document.addEventListener("DOMContentLoaded", () => {
     const buttons = document.querySelectorAll(".btn-remove");
 

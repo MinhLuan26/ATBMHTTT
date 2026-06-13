@@ -7,14 +7,7 @@ import java.util.List;
 
 import database.DBContext;
 
-/** Triển khai OrderDAO */
 public class OrderDAOImpl implements IOrderDAO {
-
-	/** Lưu đơn hàng vào CSDL */
-	/**
-	 * Lưu đơn hàng và chi tiết (sử dụng transaction). Trả về orderId mới tạo (hoặc
-	 * -1 nếu lỗi).
-	 */
 	public int save(Order o) {
 		String sqlOrder = "INSERT INTO orders(user_id,total_price,status) VALUES(?,?,?)";
 		String sqlDetail = "INSERT INTO order_details(order_id,book_id,quantity,price) VALUES(?,?,?,?)";
@@ -54,8 +47,6 @@ public class OrderDAOImpl implements IOrderDAO {
 
 	public List<Order> getOrdersByUserId(int userId) {
 	    List<Order> list = new ArrayList<>();
-	    
-	    // SỬA: Bỏ điều kiện lọc cứng status = 'COMPLETED', lấy toàn bộ đơn hàng của user đó
 	    String sql = "SELECT * FROM orders WHERE user_id = ? ORDER BY order_date DESC";
 	    
 	    try (Connection conn = DBContext.getConnection();
@@ -68,7 +59,7 @@ public class OrderDAOImpl implements IOrderDAO {
 	                o.setId(rs.getInt("id"));
 	                o.setUserId(rs.getInt("user_id"));
 	                o.setTotalPrice(rs.getBigDecimal("total_price"));
-	                o.setStatus(rs.getString("status")); // Lấy cả PENDING, COMPLETED, SHIPPING...
+	                o.setStatus(rs.getString("status"));
 	                o.setOrderDate(rs.getTimestamp("order_date"));
 	                o.setShippingAddress(rs.getString("shipping_address"));
 	                list.add(o);

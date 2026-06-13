@@ -1,5 +1,4 @@
 @charset "UTF-8";
-/* 1. Reset và cài đặt cơ bản */
 html, body {
 	margin: 0;
 	padding: 0;
@@ -33,7 +32,6 @@ html, body {
 	transform: translateY(1px);
 }
 
-/* 2. Container chính */
 .container-wrapper {
 	display: flex;
 	width: 100%;
@@ -41,7 +39,6 @@ html, body {
 	overflow: hidden;
 }
 
-/* Panel trái */
 .image-panel {
 	flex: 1.75;
 	display: flex;
@@ -58,7 +55,6 @@ html, body {
 	display: block;
 }
 
-/* Panel phải */
 .form-panel {
 	flex: 1;
 	display: flex;
@@ -71,7 +67,6 @@ html, body {
 	overflow-y: auto;
 }
 
-/* Form card */
 .form-card {
 	position: relative;
 	background-color: #ffffff;
@@ -82,7 +77,6 @@ html, body {
 	width: 100%;
 }
 
-/* Logo */
 .app-logo {
 	display: flex;
 	align-items: center;
@@ -115,7 +109,6 @@ html, body {
 	font-size: 12px;
 }
 
-/* Error message */
 .error-message {
 	color: #e74c3c;
 	font-weight: 500;
@@ -123,7 +116,6 @@ html, body {
 	margin-bottom: 20px;
 }
 
-/* Input group */
 .input-group {
 	margin-bottom: 12px;
 }
@@ -158,8 +150,6 @@ html, body {
 	color: #aab;
 }
 
-/* 🔥 BUTTON TRONG FORM LOGIN/REGISTER */
-/* Không còn ảnh hưởng toàn trang */
 .form-card button[type="submit"] {
 	width: 100%;
 	padding: 10px 20px;
@@ -183,7 +173,6 @@ html, body {
 	transform: translateY(0);
 }
 
-/* Login link */
 .login-link {
 	text-align: center;
 	margin-top: 15px;
@@ -203,7 +192,6 @@ html, body {
 	color: #0056b3;
 }
 
-/* Scrollbar */
 ::-webkit-scrollbar {
 	width: 8px;
 }
@@ -222,13 +210,11 @@ html, body {
 	background: #555;
 }
 
-/* Full width container */
 .container {
 	width: 100%;
 	margin: auto;
 }
 
-/* Footer */
 .site-footer {
 	background-color: #07805b;
 	color: white;

@@ -3,13 +3,14 @@ package model;
 public class Review {
     private int id, userId, bookId, rating;
     private String comment;
-
-    /** Trả về số sao */
-    public int getRating(){ return rating; }
+    public int getRating(){ 
+    	return rating; 
+    }
+    
     public void setRating(int rating) {
     	this.rating = rating;
     }
-    // getters/setters...
+    
     public int getId() {
     	return id;
     }

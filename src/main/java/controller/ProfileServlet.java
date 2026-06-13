@@ -81,8 +81,6 @@ public class ProfileServlet extends HttpServlet {
                 session.setAttribute("user", user);
                 session.setAttribute("newPrivateKey", "true");
                 session.setAttribute("newPrivateKey_download", privKeyStr);
-                
-                // Set trạng thái về ACTIVE khi tạo khóa mới
                 session.setAttribute("keyStatus", "ACTIVE"); 
                 session.setAttribute("keyUpdatedAt", sdf.format(new Date()));
                 session.setAttribute("message", "Tạo khóa mới thành công!");
@@ -100,8 +98,6 @@ public class ProfileServlet extends HttpServlet {
                     userDAO.updateUser(user);
                     
                     session.setAttribute("user", user);
-                    
-                    // Set trạng thái về ACTIVE khi tải khóa mới lên
                     session.setAttribute("keyStatus", "ACTIVE");
                     session.setAttribute("keyUpdatedAt", sdf.format(new Date()));
                     session.setAttribute("message", "Đã tải lên khóa công khai thành công!");
@@ -123,18 +119,7 @@ public class ProfileServlet extends HttpServlet {
                 return;
 
             } 
-            // 🌟 LUỒNG XỬ LÝ THU HỒI KHÓA ĐƯỢC THÊM VÀO ĐÂY 🌟
             else if ("revokeKey".equals(formType)) {
-                
-                /*
-                 * GHI CHÚ CHO BẠN: 
-                 * Nếu trong class model.User của bạn có thêm thuộc tính trạng thái (ví dụ: statusKey), 
-                 * bạn hãy uncomment 2 dòng dưới đây để lưu thẳng xuống Database:
-                 * * user.setKeyStatus("REVOKED");
-                 * userDAO.updateUser(user);
-                 */
-
-                // Cập nhật biến Session để giao diện Web nhận diện và hiển thị nhãn màu đỏ
                 session.setAttribute("keyStatus", "REVOKED");
                 session.setAttribute("keyUpdatedAt", sdf.format(new Date()));
                 

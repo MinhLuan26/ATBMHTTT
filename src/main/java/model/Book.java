@@ -7,11 +7,11 @@ public class Book implements Serializable{
 	private int id;
 	private String title;
 	private String author;
-	private BigDecimal price; // Dùng BigDecimal cho tiền tệ
+	private BigDecimal price;
 	private String description;
 	private String imageUrl;
-	private String status; // PENDING, ACTIVE...
-	private int sellerId; // ID người bán
+	private String status;
+	private int sellerId;
 
 	public String getStatus() {
 		return status;
@@ -28,14 +28,9 @@ public class Book implements Serializable{
 	public void setSellerId(int sellerId) {
 		this.sellerId = sellerId;
 	}
-
-	// Constructors (để trống)
+	
 	public Book() {
 	}
-
-	// Getters and Setters
-	// (Hãy dùng Eclipse: Chuột phải > Source > Generate Getters and Setters... >
-	// Select All)
 
 	public int getId() {
 		return id;

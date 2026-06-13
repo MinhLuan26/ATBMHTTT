@@ -11,14 +11,14 @@
 
 .cart-table {
 	width: 100%;
-	border-collapse: collapse; /* Gộp viền */
+	border-collapse: collapse;
 }
 
 .cart-table th, .cart-table td {
 	border-bottom: 1px solid #ddd;
 	padding: 15px;
 	text-align: left;
-	vertical-align: middle; /* Căn giữa theo chiều dọc */
+	vertical-align: middle;
 }
 
 .cart-table th {
@@ -30,19 +30,17 @@
 
 .cart-item-image {
 	width: 80px;
-	height: 100px; /* Thêm chiều cao */
-	object-fit: cover; /* Đảm bảo ảnh không bị méo */
+	height: 100px;
+	object-fit: cover;
 	border-radius: 5px;
 }
 
-/* Định dạng cột "Thành tiền" */
 .cart-table td:nth-child(5) b {
-	color: #e44d26; /* Màu đỏ cam */
+	color: #e44d26;
 }
 
-/* Nút Xóa */
 .remove-item-link {
-	color: #e74c3c; /* Màu đỏ */
+	color: #e74c3c;
 	text-decoration: none;
 	font-weight: 500;
 }
@@ -51,7 +49,6 @@
 	text-decoration: underline;
 }
 
-/* Khối tổng tiền */
 .cart-total {
 	text-align: right;
 	margin-top: 20px;
@@ -60,14 +57,13 @@
 	color: #333;
 }
 
-/* Nút "Tiến hành Thanh toán" */
 .cart-actions {
 	margin-top: 20px;
 	display: flex;
-	justify-content: space-between; /* Đẩy 2 nút về 2 phía */
+	justify-content: space-between;
 }
 
 .cart-actions a {
-	font-size: 25px !important; /* Kích thước chữ */
+	font-size: 25px !important;
 	text-decoration: none !important;
 }

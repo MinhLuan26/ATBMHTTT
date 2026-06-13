@@ -21,11 +21,7 @@ public class WishlistServlet extends HttpServlet {
 
     private WishlistDAO dao = new WishlistDAO();
     private IBookDAO bookDAO = new BookDAOImpl();
-
-
-    // ===============================
-    // HIỂN THỊ TRANG WISHLIST (GET)
-    // ===============================
+    
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException, ServletException {
@@ -39,8 +35,6 @@ public class WishlistServlet extends HttpServlet {
         }
 
         int userId = ((model.User) u).getId();
-
-        // Lấy book_id trong wishlist
         List<Integer> ids = null;
 
     
@@ -48,24 +42,14 @@ public class WishlistServlet extends HttpServlet {
 				ids = dao.getAll(userId);
 				
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-            // Optional: chuyển sang trang lỗi hoặc báo lỗi
-        
-        // Lấy thông tin sách
         List<Book> books = bookDAO.getBooksByIds(ids);
-        
-
-        // Gửi sang JSP
         req.setAttribute("books", books);
 
         req.getRequestDispatcher("wishlist.jsp").forward(req, resp);
     }
-
-    // ===============================
-    // XỬ LÝ AJAX TOGGLE (POST)
-    // ===============================
+    
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         resp.setContentType("application/json; charset=UTF-8");

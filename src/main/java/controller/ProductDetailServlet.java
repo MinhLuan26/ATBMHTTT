@@ -42,8 +42,6 @@ public class ProductDetailServlet extends HttpServlet {
             }
 
             request.setAttribute("book", book);
-
-            // === KIỂM TRA TRONG WISHLIST ===
             HttpSession session = request.getSession();
             User u = (User) session.getAttribute("user");
             Integer userId = null;

@@ -16,7 +16,6 @@ public class BookDAOImpl implements IBookDAO {
 	@Override
 	public List<Book> getFeaturedBooks() {
 	    List<Book> books = new ArrayList<>();
-	    // Thêm điều kiện WHERE status = 'ACTIVE'
 	    String sql = "SELECT TOP 8 * FROM books WHERE status = 'ACTIVE' ORDER BY id DESC";
 
 	    try (Connection conn = DBContext.getConnection();
@@ -148,7 +147,6 @@ public class BookDAOImpl implements IBookDAO {
 
     @Override
     public int insertBook(Book b) {
-        // FIX: thiếu dấu hỏi cho seller_id → giờ đã đủ 8 dấu ?
         String sql = "INSERT INTO books(title, author, price, description, image_url, condition, status, seller_id) "
                    + "VALUES(?,?,?,?,?,?,?,?)";
 
@@ -199,8 +197,6 @@ public class BookDAOImpl implements IBookDAO {
                 b.setTitle(rs.getString("title"));
                 b.setAuthor(rs.getString("author"));
                 b.setPrice(rs.getBigDecimal("price"));
-
-                // FIX QUAN TRỌNG NHẤT
                 b.setImageUrl(rs.getString("image_url"));  
 
                 b.setSellerId(rs.getInt("seller_id"));
@@ -235,8 +231,8 @@ public class BookDAOImpl implements IBookDAO {
         try (Connection conn = DBContext.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setString(1, "%" + keyword + "%"); // chứa
-            ps.setString(2, keyword + "%");       // bắt đầu
+            ps.setString(1, "%" + keyword + "%");
+            ps.setString(2, keyword + "%");
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
